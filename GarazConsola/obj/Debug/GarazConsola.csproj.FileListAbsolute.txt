@@ -1,0 +1,14 @@
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\GarazConsola.exe.config
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\GarazConsola.exe
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\GarazConsola.pdb
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\BL.dll
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\DB.dll
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\EntityFramework.dll
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\BL.pdb
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\DB.pdb
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\EntityFramework.xml
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\obj\Debug\GarazConsola.csprojResolveAssemblyReference.cache
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\obj\Debug\GarazConsola.exe
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\obj\Debug\GarazConsola.pdb
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\EntityFramework.SqlServer.xml

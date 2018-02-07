@@ -1,0 +1,10 @@
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\bin\Debug\BL.dll
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\bin\Debug\BL.pdb
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\bin\Debug\DB.dll
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\bin\Debug\EntityFramework.dll
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\bin\Debug\DB.pdb
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\bin\Debug\EntityFramework.xml
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\obj\Debug\BL.csprojResolveAssemblyReference.cache
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\obj\Debug\BL.dll
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\obj\Debug\BL.pdb
+c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\BL\bin\Debug\BL.dll.config
