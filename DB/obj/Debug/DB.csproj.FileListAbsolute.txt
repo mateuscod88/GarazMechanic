@@ -9,3 +9,4 @@ c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\DB
 c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\DB\obj\Debug\DB.pdb
 C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\DB\obj\Debug\DB.Migrations.InitialCreate.resources
 C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\DB\obj\Debug\DB.csproj.GenerateResource.Cache
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\DB\obj\Debug\DB.csprojResolveAssemblyReference.cache
