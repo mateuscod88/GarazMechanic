@@ -12,3 +12,14 @@ c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\Ga
 c:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\obj\Debug\GarazConsola.pdb
 C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\nunit.framework.dll
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\AutoMoq.dll
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Microsoft.Practices.Unity.dll
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Moq.dll
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\nunit.framework.xml
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Microsoft.Practices.Unity.xml
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Moq.pdb
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Moq.xml
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\mateusz.malinowski\Documents\Visual Studio 2015\Projects\CARSHISTORY\GarazConsola\bin\Debug\Microsoft.Practices.ServiceLocation.xml
