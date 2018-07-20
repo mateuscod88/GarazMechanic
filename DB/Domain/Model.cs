@@ -10,5 +10,6 @@ namespace DB.Domain
     {
         public int ModelID { get; set; }
         public string Name { get; set; }
+        public virtual Brand Brand { get; set; }
     }
 }

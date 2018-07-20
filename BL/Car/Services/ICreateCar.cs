@@ -8,6 +8,6 @@ namespace BL.Car.Services
 {
     interface ICreateCar
     {
-         void Execute();
+         void Execute(string name);
     }
 }

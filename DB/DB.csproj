@@ -55,10 +55,26 @@
     <Compile Include="Domain\Model.cs" />
     <Compile Include="Domain\Owner.cs" />
     <Compile Include="Domain\Part.cs" />
+    <Compile Include="Domain\PartBrand.cs" />
+    <Compile Include="Domain\PartCategory.cs" />
+    <Compile Include="Domain\ProductionYear.cs" />
     <Compile Include="Domain\Repair.cs" />
+    <Compile Include="Interface\IDatabaseService.cs" />
     <Compile Include="Migrations\201802070941599_InitialCreate.cs" />
     <Compile Include="Migrations\201802070941599_InitialCreate.Designer.cs">
       <DependentUpon>201802070941599_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805291052442_final.cs" />
+    <Compile Include="Migrations\201805291052442_final.Designer.cs">
+      <DependentUpon>201805291052442_final.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805291202449_Version 1_0_0_1.cs" />
+    <Compile Include="Migrations\201805291202449_Version 1_0_0_1.Designer.cs">
+      <DependentUpon>201805291202449_Version 1_0_0_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805291204265_Version 1_0_0_3.cs" />
+    <Compile Include="Migrations\201805291204265_Version 1_0_0_3.Designer.cs">
+      <DependentUpon>201805291204265_Version 1_0_0_3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +86,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201802070941599_InitialCreate.resx">
       <DependentUpon>201802070941599_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805291052442_final.resx">
+      <DependentUpon>201805291052442_final.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805291202449_Version 1_0_0_1.resx">
+      <DependentUpon>201805291202449_Version 1_0_0_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805291204265_Version 1_0_0_3.resx">
+      <DependentUpon>201805291204265_Version 1_0_0_3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

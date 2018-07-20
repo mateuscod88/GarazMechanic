@@ -11,7 +11,7 @@ namespace DB.Domain
         public int RepairID { get; set; }
         public string Name { get; set; }
         public DateTime RepairDate { get; set; }
-        public Car Car { get; set; }
-        public ICollection<Part> Parts { get; set; }
+        public virtual Car Car { get; set; }
+        public virtual ICollection<Part> Parts { get; set; }
     }
 }

@@ -4,24 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BL.Car.DTO;
 
 namespace BL.Car.Services
 {
     public class CreateCarCmd
     {
-        private CarHistoryContext _context;
-        public void Execute()
+        private DB.Interface.IDatabaseService _context;
+        public CreateCarCmd(DB.Interface.IDatabaseService context)
         {
-            using (_context = new CarHistoryContext())
+            _context = context;
+        }
+        public void Execute(CarDTO carDto)
+        {
+
+            using (_context)
             {
+                var model = _context.Models.Where(x => x.Name == carDto.Model).FirstOrDefault();
+                var brand = _context.Brands.Where(x => x.Name == carDto.Brand).FirstOrDefault();
+                var owner = _context.Owners.Where(x => x.Name == carDto.OwnerName).FirstOrDefault();
+                var productionYear = _context.ProductionYear.Where(x => x.Year == carDto.Year).FirstOrDefault();
+
                 DB.Domain.Car car = new DB.Domain.Car();
-                car.Name = "audi";
-                car.Model = null;
-                car.Brand = null;
-                car.Owner = null;
+                car.Name = carDto.Name;
+                car.Model = model;
+                car.Owner = owner;
                 car.Repairs = null;
+                car.Brand = brand;
+                car.ProductionYear = productionYear;
                 _context.Cars.Add(car);
-                _context.SaveChanges();
+                _context.Save();
             }
         }
     }

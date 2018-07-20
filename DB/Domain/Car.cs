@@ -10,10 +10,13 @@ namespace DB.Domain
     {
         public  int CarID { get; set; }
         public string Name{ get; set; }
-        public Owner Owner { get; set; }
-        public Model Model { get; set; }
-        public Brand Brand { get; set; }
-        public ICollection<Repair> Repairs{ get; set; }
+        public string HorsePower { get; set; }
+        public string PlateNumber { get; set; }
+        public virtual ProductionYear ProductionYear { get; set; }
+        public virtual Owner Owner { get; set; }
+        public virtual Brand Brand { get; set; }
+        public virtual Model Model { get; set; }
+        public virtual ICollection<Repair> Repairs{ get; set; }
 
     }
 }

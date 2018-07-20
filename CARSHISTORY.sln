@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{8FAF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarazConsola", "GarazConsola\GarazConsola.csproj", "{FEA64D7A-859E-463A-8659-D5B1E6AB4487}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car_Test", "Car_Test\Car_Test.csproj", "{5C82EE67-6244-444B-A161-15597109B2EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FEA64D7A-859E-463A-8659-D5B1E6AB4487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEA64D7A-859E-463A-8659-D5B1E6AB4487}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEA64D7A-859E-463A-8659-D5B1E6AB4487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C82EE67-6244-444B-A161-15597109B2EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C82EE67-6244-444B-A161-15597109B2EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C82EE67-6244-444B-A161-15597109B2EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C82EE67-6244-444B-A161-15597109B2EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

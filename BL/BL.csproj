@@ -75,19 +75,17 @@
     <Compile Include="Car\DTO\Car.cs" />
     <Compile Include="Car\Services\CreateCarCmd.cs" />
     <Compile Include="Car\Services\GetAllCarQuery.cs" />
-    <Compile Include="Car\Services\GetAllCarQueryTest.cs" />
+    <Compile Include="Car\Services\GetCarById.cs" />
     <Compile Include="Car\Services\ICreateCar.cs" />
     <Compile Include="Car\Services\IGetAllCars.cs" />
+    <Compile Include="Car\Services\IGetCarById.cs" />
+    <Compile Include="Car\Services\IUpdateCar.cs" />
+    <Compile Include="Car\Services\UpdateCar.cs" />
     <Compile Include="Part\DTO\PartDTO.cs" />
     <Compile Include="Part\Services\CreatePartCmd.cs" />
     <Compile Include="Part\Services\Intefrace\ICreatePart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DB\DB.csproj">
-      <Project>{10FE5910-0102-40CE-BBA8-CEFC8FF1185D}</Project>
-      <Name>DB</Name>
-    </ProjectReference>
+    <Compile Include="Repair\DTO\RepairDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -95,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DB\DB.csproj">
+      <Project>{10fe5910-0102-40ce-bba8-cefc8ff1185d}</Project>
+      <Name>DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

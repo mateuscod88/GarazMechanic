@@ -4,26 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DB.Interface;
+using System.Data.Entity;
+using BL.Car.DTO;
 
 namespace BL.Car.Services
 {
-    public class GetAllCarQuery
+    public class GetAllCarQuery : IGetAllCars
     {
-        private CarHistoryContext _context;
-        public List<BL.Car.DTO.Car> Execute()
+        private IDatabaseService _context;
+        public GetAllCarQuery(IDatabaseService context)
         {
-            List<BL.Car.DTO.Car> Cars;
-            using (_context = new CarHistoryContext())
-            {
+            _context = context;
+        }
+        public List<CarDTO> Execute()
+        {
+            List<CarDTO> Cars;
                 Cars = _context
                        .Cars
-                       .Select(car => new BL.Car.DTO.Car()
+                       .Select(car => new CarDTO
                        {
                            Id = car.CarID,
                            Name = car.Name
                        })
                        .ToList();
-            }
             return Cars;
             
         }

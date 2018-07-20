@@ -9,6 +9,6 @@ namespace BL.Car.Services
 {
     interface IGetAllCars
     {
-        List<BL.Car.DTO.Car> Execute();
+        List<CarDTO> Execute();
     }
 }
