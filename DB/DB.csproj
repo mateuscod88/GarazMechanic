@@ -59,6 +59,7 @@
     <Compile Include="Domain\PartCategory.cs" />
     <Compile Include="Domain\ProductionYear.cs" />
     <Compile Include="Domain\Repair.cs" />
+    <Compile Include="Domain\RepairNotes.cs" />
     <Compile Include="Interface\IDatabaseService.cs" />
     <Compile Include="Migrations\201802070941599_InitialCreate.cs" />
     <Compile Include="Migrations\201802070941599_InitialCreate.Designer.cs">

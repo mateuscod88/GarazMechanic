@@ -18,6 +18,7 @@ namespace DB.Interface
          DbSet<PartBrand> PartBrands { get; set; }
          DbSet<PartCategory> PartCategory { get; set; }
          DbSet<ProductionYear> ProductionYear { get; set; }
+         DbSet<RepairNotes> RepairNotes { get; set; }
          void Save();
          void Update(object entity, object newEntity);
 

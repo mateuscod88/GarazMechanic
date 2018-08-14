@@ -19,6 +19,8 @@ namespace DB
         public DbSet<PartBrand> PartBrands { get; set; }
         public DbSet<PartCategory> PartCategory { get; set; }
         public DbSet<ProductionYear> ProductionYear{ get; set; }
+        public DbSet<RepairNotes> RepairNotes { get; set; }
+
         public CarHistoryContext() : base()
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<CarHistoryContext, DB.Migrations.Configuration>());
