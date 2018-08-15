@@ -36,13 +36,14 @@ namespace DB
         {
             this.Entry(entity).CurrentValues.SetValues(newEntity);
         }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
             
 
         }
-
+        
 
     }
 }

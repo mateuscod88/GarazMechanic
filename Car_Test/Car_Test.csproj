@@ -96,7 +96,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Brand_Test\BrandTest.cs" />
+    <Compile Include="Car_Test\Car_Test.cs" />
+    <Compile Include="Model_Test\ModelTest.cs" />
+    <Compile Include="Owner_Test\OwnerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repair_Test\Repair_Test.cs" />
   </ItemGroup>
@@ -117,6 +120,7 @@
       <Name>DB</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

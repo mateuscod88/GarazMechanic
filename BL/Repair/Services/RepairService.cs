@@ -52,7 +52,7 @@ namespace BL.Repair.Services
                 var repairNotes = _context.RepairNotes.Where(x => x.Repair.RepairID == repairDTO.Id).ToList();
                 repairNotes.Add(new DB.Domain.RepairNotes
                 {
-                    Description = repairDTO.Note
+                    Description = repairDTO.Notes.FirstOrDefault(x => x.Id == repairDTO.updatedRepairNoteId).Description
                 });
                 _context.Repairs.Add(new DB.Domain.Repair
                 {
@@ -84,8 +84,8 @@ namespace BL.Repair.Services
                 _context.RepairNotes.Add(new DB.Domain.RepairNotes
                 {
                     Repair = repair,
-                    Description = repairDTO.Note
-                    
+                    Description = repairDTO.Notes.FirstOrDefault(x => x.Id == repairDTO.updatedRepairNoteId).Description
+
                 });
                  
                 
@@ -94,18 +94,36 @@ namespace BL.Repair.Services
             }
         }
         public void UpdateNote(RepairDTO repairDTO) {
-            var repairNotes = _context.RepairNotes.Where(x => x.Repair.RepairID == repairDTO.Id).ToList();
-            repairNotes.Add(new DB.Domain.RepairNotes
+            using (_context)
             {
-                Description = repairDTO.Note
-            });
+                _context.RepairNotes.Where(x => x.RepairNotesID == repairDTO.updatedRepairNoteId).FirstOrDefault().Description = repairDTO.Notes.FirstOrDefault(x => x.Id == repairDTO.updatedRepairNoteId).Description;
+                _context.Save();
+            }
+            
         }
 
         public void DeleteRepair(RepairDTO repairDTO)
         {
-
+            using (_context)
+            {
+                _context.Repairs.Where(x => x.RepairID == repairDTO.Id).FirstOrDefault().IsInactive = "Y";
+                var repairNotes = _context.RepairNotes.ToList();
+                foreach(var repairNote in repairNotes)
+                {
+                    repairNote.IsInactive = "Y";
+                }
+                _context.Save();
+            }
         }
-        public void DeleteNote(RepairDTO repairDTO) { }
+        public void DeleteNote(RepairDTO repairDTO)
+        {
+            using (_context)
+            {
+                _context.RepairNotes.Where(x => x.RepairNotesID == repairDTO.updatedRepairNoteId).FirstOrDefault().IsInactive = "Y";
+                _context.Save();
+            }
+            
+        }
 
     }
 }

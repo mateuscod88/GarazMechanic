@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BL.Repair.Services;
+using BL.Repair.DTO;
 
 namespace Car_Test.Repair_Test
 {
@@ -18,6 +19,7 @@ namespace Car_Test.Repair_Test
         private Mock<DbSet<Repair>> repairsMock;
         private Mock<DbSet<Car>> carsMock;
         private Mock<DbSet<RepairNotes>> emptyRepairNotesMock;
+        private Mock<DbSet<RepairNotes>> repairNotesMock;
 
         [SetUp]
         public void Setup()
@@ -45,12 +47,24 @@ namespace Car_Test.Repair_Test
             emptyRepairNotesMock.As<IQueryable<RepairNotes>>().Setup(m => m.ElementType).Returns(emptyRepairNotes.ElementType);
             emptyRepairNotesMock.As<IQueryable<RepairNotes>>().Setup(m => m.GetEnumerator()).Returns(emptyRepairNotes.GetEnumerator());
 
+            var repairNotes= new List<RepairNotes>
+                {
+                    fixture.Build<RepairNotes>().With(u => u.RepairNotesID,1).With(u=> u.Description,"Wymieniana filtra oleju").Create(),
+                    fixture.Build<RepairNotes>().With(u => u.RepairNotesID,2).With(u=> u.Description,"Wymieniana filtra paliwa").Create()
+
+                }.AsQueryable();
+            repairNotesMock = new Mock<DbSet<RepairNotes>>();
+            repairNotesMock.As<IQueryable<RepairNotes>>().Setup(m => m.Provider).Returns(repairNotes.Provider);
+            repairNotesMock.As<IQueryable<RepairNotes>>().Setup(m => m.Expression).Returns(repairNotes.Expression);
+            repairNotesMock.As<IQueryable<RepairNotes>>().Setup(m => m.ElementType).Returns(repairNotes.ElementType);
+            repairNotesMock.As<IQueryable<RepairNotes>>().Setup(m => m.GetEnumerator()).Returns(repairNotes.GetEnumerator());
+
             var repairs = new List<Repair> {
 
                     fixture.Build<Repair>().With(u => u.RepairID, 1).With(u => u.Name,"Rozrzad").With(u => u.Car, fixture.Build<Car>().With(u => u.CarID, 3).With(u => u.Name,"Skoda").Create()).Create(),
                     fixture.Build<Repair>().With(u => u.RepairID, 2).With(u => u.Name,"Wymiana Oleju").With(u => u.Car, fixture.Build<Car>().With(u => u.CarID, 3).With(u => u.Name,"Skoda").Create()).Create(),
                     fixture.Build<Repair>().With(u => u.RepairID, 3).With(u => u.Name,"Sprzeglo").With(u => u.Car, fixture.Build<Car>().With(u => u.CarID, 2).With(u => u.Name,"Skoda").Create()).Create()
-                    }.AsQueryable();
+                }.AsQueryable();
 
             repairsMock = new Mock<DbSet<Repair>>();
             repairsMock.As<IQueryable<Repair>>().Setup(m => m.Provider).Returns(repairs.Provider);
@@ -96,7 +110,7 @@ namespace Car_Test.Repair_Test
                 CarId = 2,
                 Date = DateTime.Parse("9.08.2018 15:53:00"),
                 Name = "Olejek",
-                Note = "Uzyto oleju 5W40 Valvoline"
+                Notes = new List<RepairNoteDTO> { new RepairNoteDTO { Description = "Uzyto oleju 5W40 Valvoline" } }
             });
             try
             {
@@ -124,7 +138,7 @@ namespace Car_Test.Repair_Test
                 CarId = 2,
                 Date = DateTime.Parse("10.08.2018 15:53:00"),
                 Name = "Olejek",
-                Note = "Uzyto oleju 5W30 Valvoline"
+                Notes = new List<RepairNoteDTO> { new RepairNoteDTO { Description = "Uzyto oleju 5W40 Valvoline" } }
             });
             try
             {
@@ -149,7 +163,7 @@ namespace Car_Test.Repair_Test
             repairService.AddNote(new BL.Repair.DTO.RepairDTO
             {
                 Id = 1,
-                Note = "Filtr OE650/1",
+                Notes = new List<RepairNoteDTO> { new RepairNoteDTO { Description = "Uzyto oleju 5W40 Valvoline" } },
                 Date = DateTime.Parse("10.08.2018 15:53:00")
             });
             try
@@ -169,7 +183,7 @@ namespace Car_Test.Repair_Test
             var repairContextMock = new Mock<DB.Interface.IDatabaseService>();
             repairContextMock.Setup(x => x.Repairs).Returns(repairsMock.Object);
             repairContextMock.Setup(x => x.Cars).Returns(carsMock.Object);
-            repairContextMock.Setup(x => x.RepairNotes).Returns(emptyRepairNotesMock.Object);
+            repairContextMock.Setup(x => x.RepairNotes).Returns(repairNotesMock.Object);
 
             var repairService = new RepairService(repairContextMock.Object);
             repairService.UpdateNote(new BL.Repair.DTO.RepairDTO
@@ -178,14 +192,88 @@ namespace Car_Test.Repair_Test
                 CarId = 2,
                 Date = DateTime.Parse("10.08.2018 15:53:00"),
                 Name = "Olejek",
-                Note = "Uzyto oleju 5W30 Valvoline"
+                updatedRepairNoteId = 1,
+                Notes = new List<RepairNoteDTO> { new RepairNoteDTO { Id = 1, Description = "Uzyto oleju 5W40 Valvoline" } }
             });
-            Assert.IsTrue(false);
+            try
+            {
+               // repairNotesMock.Verify(m => m.Add(It.IsAny<RepairNotes>()), Times.AtLeastOnce);
+                repairContextMock.Verify(m => m.Save(), Times.AtLeastOnce());
+                Assert.IsTrue(true);
+            }
+            catch(Exception e)
+            {
+                Assert.IsTrue(false);
+
+            }
         }
         [Test]
         public void Delete_Note()
         {
-            Assert.IsTrue(false);
+            var repairContextMock = new Mock<DB.Interface.IDatabaseService>();
+            repairContextMock.Setup(x => x.Repairs).Returns(repairsMock.Object);
+            repairContextMock.Setup(x => x.Cars).Returns(carsMock.Object);
+            repairContextMock.Setup(x => x.RepairNotes).Returns(repairNotesMock.Object);
+
+            var repairService = new RepairService(repairContextMock.Object);
+            repairService.DeleteNote(new BL.Repair.DTO.RepairDTO
+            {
+                Id = 1,
+                CarId = 2,
+                Date = DateTime.Parse("10.08.2018 15:53:00"),
+                Name = "Olejek",
+                updatedRepairNoteId = 1,
+                Notes = new List<RepairNoteDTO> { new RepairNoteDTO { Id = 1, Description = "Uzyto oleju 5W40 Valvoline" } }
+            });
+            try
+            {
+                // repairNotesMock.Verify(m => m.Add(It.IsAny<RepairNotes>()), Times.AtLeastOnce);
+                repairContextMock.Verify(m => m.Save(), Times.AtLeastOnce());
+                var IsInactive = repairContextMock.Object.RepairNotes.Where(x => x.RepairNotesID == 1).FirstOrDefault().IsInactive;
+                Assert.IsTrue(IsInactive == "Y");
+                Assert.IsTrue(true);
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(false);
+
+            }
+        }
+        [Test]
+        public void Delete_Repair()
+        {
+            var repairContextMock = new Mock<DB.Interface.IDatabaseService>();
+            repairContextMock.Setup(x => x.Repairs).Returns(repairsMock.Object);
+            repairContextMock.Setup(x => x.Cars).Returns(carsMock.Object);
+            repairContextMock.Setup(x => x.RepairNotes).Returns(repairNotesMock.Object);
+
+            var repairService = new RepairService(repairContextMock.Object);
+
+            repairService.DeleteRepair(new BL.Repair.DTO.RepairDTO
+            {
+                Id = 1,
+                CarId = 2,
+                Date = DateTime.Parse("10.08.2018 15:53:00"),
+                Name = "Olejek",
+                updatedRepairNoteId = 1,
+                Notes = new List<RepairNoteDTO> { new RepairNoteDTO { Id = 1, Description = "Uzyto oleju 5W40 Valvoline" } }
+            });
+            try
+            {
+                // repairNotesMock.Verify(m => m.Add(It.IsAny<RepairNotes>()), Times.AtLeastOnce);
+                repairContextMock.Verify(m => m.Save(), Times.AtLeastOnce());
+                var IsInactiveRepair = repairContextMock.Object.Repairs.Where(x => x.RepairID == 1).FirstOrDefault().IsInactive;
+
+                var IsInactiveRepairNote = repairContextMock.Object.RepairNotes.Where(x => x.RepairNotesID == 1).FirstOrDefault().IsInactive;
+                Assert.IsTrue(IsInactiveRepair == "Y");
+                Assert.IsTrue(IsInactiveRepairNote == "Y");
+                Assert.IsTrue(true);
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(false);
+
+            }
         }
     }
 }

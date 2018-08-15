@@ -33,9 +33,9 @@ namespace Car_Test
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             var cars = new List<Car>
                       {
-                        fixture.Build<Car>().With(u => u.CarID, 1).With(u => u.Name,"Audi").Create(),
-                        fixture.Build<Car>().With(u => u.CarID, 2).With(u => u.Name,"Vw").Create(),
-                        fixture.Build<Car>().With(u => u.CarID, 3).With(u => u.Name,"Skoda").Create()
+                        fixture.Build<Car>().With(u => u.CarID, 1).With(u => u.Name,"Audi").With(u => u.Owner,fixture.Build<Owner>().With(u => u.Name,"Wojtek").With(u => u.OwnerID,1).Create()).Create(),
+                        fixture.Build<Car>().With(u => u.CarID, 2).With(u => u.Name,"Vw").With(u => u.Owner,fixture.Build<Owner>().With(u => u.Name,"Wojtek").With(u => u.OwnerID,1).Create()).Create(),
+                        fixture.Build<Car>().With(u => u.CarID, 3).With(u => u.Name,"Skoda").With(u => u.Owner,fixture.Build<Owner>().With(u => u.Name,"Wojtek").With(u => u.OwnerID,2).Create()).Create()
                       }.AsQueryable();
 
             carsMock = new Mock<DbSet<Car>>();
@@ -180,6 +180,22 @@ namespace Car_Test
                 Assert.IsTrue(false);
             }
 
+        }
+        [Test]
+        public void Get_All_Owner_Cars()
+        {
+            var carContextMock = new Mock<DB.Interface.IDatabaseService>();
+            carContextMock.Setup(x => x.Cars).Returns(carsMock.Object);
+            carContextMock.Setup(x => x.Models).Returns(modelMock.Object);
+            carContextMock.Setup(x => x.Owners).Returns(ownerMock.Object);
+            carContextMock.Setup(x => x.Brands).Returns(brandMock.Object);
+            carContextMock.Setup(x => x.ProductionYear).Returns(productionYearsMock.Object);
+            IDatabaseService _context = carContextMock.Object;
+
+            var carService = new GetCarsByOwnerId(_context);
+            var ownerCars = carService.Execute(1);
+
+            Assert.IsTrue(ownerCars.Count == 2);
         }
     }
 }

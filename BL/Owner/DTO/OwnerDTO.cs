@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DB.Domain
+namespace BL.Owner.DTO
 {
-    public class Owner
+    public class OwnerDTO
     {
-        public int OwnerID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
-        public string Phone { get; set; }
     }
 }

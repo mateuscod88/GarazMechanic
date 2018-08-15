@@ -12,5 +12,6 @@ namespace DB.Domain
 
         public string Description { get; set; }
         public virtual Repair Repair { get; set; }
+        public string IsInactive { get; set; }
     }
 }
