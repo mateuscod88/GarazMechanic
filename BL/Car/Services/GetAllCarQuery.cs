@@ -20,12 +20,28 @@ namespace BL.Car.Services
         public List<CarDTO> Execute()
         {
             List<CarDTO> Cars;
-                Cars = _context
-                       .Cars
-                       .Select(car => new CarDTO
+            Cars = _context
+                   .Cars
+                   .Select(x => new CarDTO
+                   {
+                       Id = x.CarID,
+                       Name = x.Name,
+                       Year = x.ProductionYear != null ? x.ProductionYear.Year : "",
+                       PlateNumber = x.PlateNumber,
+                       Phone = x.Owner != null ? x.Owner.Phone : "",
+                       Brand = x.Brand != null ? x.Brand.Name : "",
+                       BrandId = x.Brand != null ? x.Brand.BrandID : 0,
+                       HorsePower = x.HorsePower,
+                       OwnerName = x.Owner != null ? x.Owner.Name : "",
+                       Model = x.Model != null ? x.Model.Name : "",
+                       ModelId = x.Model != null ? x.Model.ModelID : 0,
+                       Repairs = x.Repairs.Select(y => new Repair.DTO.RepairDTO
                        {
-                           Id = car.CarID,
-                           Name = car.Name
+                           Id = y.RepairID,
+                           Name = y.Name,
+                           Date = y.RepairDate
+                       }).ToList()
+
                        })
                        .ToList();
             return Cars;

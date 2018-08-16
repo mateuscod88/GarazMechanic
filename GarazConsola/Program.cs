@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BL.Car.Services;
 using BL.Part.Services;
+using DB;
 
 namespace GarazConsola
 {
@@ -18,18 +19,17 @@ namespace GarazConsola
 
             //CreatePartCmd cmd = new CreatePartCmd();
             //cmd.Execute(new BL.Part.DTO.PartDTO() { Name = "wahacz"});
-
-
-            //GetAllCarQuery query = new GetAllCarQuery();
-            //List<BL.Car.DTO.Car> cars = query.Execute();
-            //var index = 0;
-            //Console.WriteLine(cars.Count.ToString());
-            //foreach (var car in cars)
-            //{
-            //    Console.WriteLine(car.Name + "index= " + index);
-            //    if (index == 2) continue;
-            //    index++;
-            //}
+            var carGarageContext = new CarHistoryContext();
+            GetAllCarQuery query = new GetAllCarQuery(carGarageContext);
+            List<BL.Car.DTO.CarDTO> cars = query.Execute();
+            var index = 0;
+            Console.WriteLine(cars.Count.ToString());
+            foreach (var car in cars)
+            {
+                Console.WriteLine(car.Name + "index= " + index);
+                if (index == 2) continue;
+                index++;
+            }
             Console.ReadKey();
         }
     }

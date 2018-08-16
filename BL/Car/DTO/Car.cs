@@ -14,6 +14,7 @@ namespace BL.Car.DTO
         public string Brand { get; set; }
         public int ModelId { get; set; }
         public string Model { get; set; }
+        public int OwnerId { get; set; }
         public string  OwnerName { get; set; }
         public string Phone { get; set; }
         public string Year { get; set; }

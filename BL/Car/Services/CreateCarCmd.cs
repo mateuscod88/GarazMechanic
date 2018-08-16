@@ -20,9 +20,9 @@ namespace BL.Car.Services
 
             using (_context)
             {
-                var model = _context.Models.Where(x => x.Name == carDto.Model).FirstOrDefault();
-                var brand = _context.Brands.Where(x => x.Name == carDto.Brand).FirstOrDefault();
-                var owner = _context.Owners.Where(x => x.Name == carDto.OwnerName).FirstOrDefault();
+                var model = _context.Models.Where(x => x.ModelID == carDto.ModelId).FirstOrDefault();
+                var brand = _context.Brands.Where(x => x.BrandID== carDto.BrandId).FirstOrDefault();
+                var owner = _context.Owners.Where(x => x.OwnerID == carDto.OwnerId).FirstOrDefault();
                 var productionYear = _context.ProductionYear.Where(x => x.Year == carDto.Year).FirstOrDefault();
 
                 DB.Domain.Car car = new DB.Domain.Car();
@@ -32,6 +32,8 @@ namespace BL.Car.Services
                 car.Repairs = null;
                 car.Brand = brand;
                 car.ProductionYear = productionYear;
+                car.HorsePower = carDto.HorsePower;
+                car.PlateNumber = carDto.PlateNumber;
                 _context.Cars.Add(car);
                 _context.Save();
             }

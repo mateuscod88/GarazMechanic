@@ -64,6 +64,10 @@
       <Project>{8faff992-6d67-40a1-9892-b896f5978ec3}</Project>
       <Name>BL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DB\DB.csproj">
+      <Project>{10FE5910-0102-40CE-BBA8-CEFC8FF1185D}</Project>
+      <Name>DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
