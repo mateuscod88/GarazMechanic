@@ -7,7 +7,7 @@ using BL.Car.DTO;
 
 namespace BL.Car.Services
 {
-    interface IGetAllCars
+    public interface IGetAllCars
     {
         List<CarDTO> Execute();
     }
