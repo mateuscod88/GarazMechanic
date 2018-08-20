@@ -23,6 +23,10 @@ namespace WebGaraz
                    .As<IGetAllCars>()
                    .InstancePerDependency();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }

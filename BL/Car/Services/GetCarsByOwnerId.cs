@@ -31,7 +31,7 @@ namespace BL.Car.Services
                     OwnerName = x.Owner.Name,
                     Model = x.Model.Name,
                     ModelId = x.Model.ModelID,
-                    Repairs = x.Repairs.Select(y => new BL.Repair.DTO.RepairDTO { Id = y.RepairID,Name = y.Name,Date = y.RepairDate}).ToList()
+                    Repairs = x.Repairs.Select(y => new BL.Repair.DTO.RepairDTO { Id = y.RepairID,Name = y.Name,Date = (DateTime)y.DateRepair}).ToList()
 
                 }).ToList();
             }

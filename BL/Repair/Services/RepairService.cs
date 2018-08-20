@@ -23,7 +23,7 @@ namespace BL.Repair.Services
                 {
                     Id = x.RepairID,
                     Name = x.Name,
-                    Date = x.RepairDate
+                    Date = (DateTime)x.DateRepair
                     
 
                 }).ToList();
@@ -39,7 +39,7 @@ namespace BL.Repair.Services
                 {
                     Id = x.RepairID,
                     Name = x.Name,
-                    Date = x.RepairDate
+                    Date = (DateTime)x.DateRepair
                 }).ToList();
                 return carRepairs;
             }
@@ -57,7 +57,7 @@ namespace BL.Repair.Services
                 _context.Repairs.Add(new DB.Domain.Repair
                 {
                     Name = repairDTO.Name,
-                    RepairDate = DateTime.Now,
+                    DateRepair = DateTime.Now,
                     RepairNotes = repairNotes,
                     Car = car                    
                 });
@@ -70,7 +70,7 @@ namespace BL.Repair.Services
             {
                
                 var repair = _context.Repairs.Where(x => x.RepairID == repairDTO.Id).FirstOrDefault();
-                repair.RepairDate = repair.RepairDate != repairDTO.Date ? repairDTO.Date : repair.RepairDate;
+                repair.DateRepair = repair.DateRepair != repairDTO.Date ? repairDTO.Date : repair.DateRepair;
                 repair.Name = repair.Name != repairDTO.Name ? repairDTO.Name : repair.Name;
                 _context.Save();
             }

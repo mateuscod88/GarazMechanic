@@ -19,8 +19,8 @@ namespace BL.Car.Services
         }
         public List<CarDTO> Execute()
         {
-            List<CarDTO> Cars;
-            Cars = _context
+           
+            var Cars = _context
                    .Cars
                    .Select(x => new CarDTO
                    {
@@ -35,14 +35,17 @@ namespace BL.Car.Services
                        OwnerName = x.Owner != null ? x.Owner.Name : "",
                        Model = x.Model != null ? x.Model.Name : "",
                        ModelId = x.Model != null ? x.Model.ModelID : 0,
-                       Repairs = x.Repairs.Select(y => new Repair.DTO.RepairDTO
+                       Repairs = _context.Repairs.Select(y => new BL.Repair.DTO.RepairDTO
                        {
                            Id = y.RepairID,
-                           Name = y.Name,
-                           Date = y.RepairDate
+                           Date = (DateTime)y.DateRepair,
+                           CarId= x.CarID,
+                           Name = y.Name
+
                        }).ToList()
 
-                       })
+
+                   })
                        .ToList();
             return Cars;
             

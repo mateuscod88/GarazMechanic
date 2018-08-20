@@ -23,8 +23,8 @@ namespace DB
 
         public CarHistoryContext() : base()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<CarHistoryContext, DB.Migrations.Configuration>());
-
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<CarHistoryContext, DB.Migrations.Configuration>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DB.CarHistoryContext>());
         }
         
         public void Save()

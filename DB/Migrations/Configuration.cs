@@ -10,12 +10,20 @@ namespace DB.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            
+            AutomaticMigrationsEnabled = true ;
             ContextKey = "DB.CarHistoryContext";
         }
 
         protected override void Seed(DB.CarHistoryContext context)
         {
+            const int year = 1990;
+            for (int i = 0; i < 30; i++)
+            {
+                context.ProductionYear.Add(new Domain.ProductionYear { Year = (year + i).ToString() });
+
+            }
+            context.SaveChanges();
 
             context.Brands.Add(new Domain.Brand { Name = "AUDI" });
             context.Brands.Add(new Domain.Brand { Name = "BMW" });
@@ -26,22 +34,22 @@ namespace DB.Migrations
 
             context.SaveChanges();
 
-            var audi    = context.Brands
+            var audi = context.Brands
                                  .Where(x => x.Name == "AUDI")
                                  .FirstOrDefault();
-            var bmw     = context.Brands
+            var bmw = context.Brands
                                  .Where(x => x.Name == "BMW")
                                  .FirstOrDefault();
-            var vw      = context.Brands
+            var vw = context.Brands
                                  .Where(x => x.Name == "VW")
                                  .FirstOrDefault();
-            var skoda   = context.Brands
+            var skoda = context.Brands
                                  .Where(x => x.Name == "SKODA")
                                  .FirstOrDefault();
-            var opel    = context.Brands
+            var opel = context.Brands
                                  .Where(x => x.Name == "OPEL")
                                  .FirstOrDefault();
-            var honda   = context.Brands
+            var honda = context.Brands
                                  .Where(x => x.Name == "HONDA")
                                  .FirstOrDefault();
 
@@ -52,9 +60,9 @@ namespace DB.Migrations
             context.Models.Add(new Domain.Model { Name = "A6", Brand = audi });
             context.SaveChanges();
 
-            context.Models.Add(new Domain.Model { Name = "GOLF"  , Brand = vw });
+            context.Models.Add(new Domain.Model { Name = "GOLF", Brand = vw });
             context.Models.Add(new Domain.Model { Name = "PASSAT", Brand = vw });
-            context.Models.Add(new Domain.Model { Name = "POLO"  , Brand = vw });
+            context.Models.Add(new Domain.Model { Name = "POLO", Brand = vw });
             context.Models.Add(new Domain.Model { Name = "TOURAN", Brand = vw });
             context.SaveChanges();
 
@@ -64,19 +72,19 @@ namespace DB.Migrations
             context.Models.Add(new Domain.Model { Name = "1(E11)", Brand = bmw });
             context.SaveChanges();
 
-            context.Models.Add(new Domain.Model { Name = "SUPERB" , Brand = skoda });
+            context.Models.Add(new Domain.Model { Name = "SUPERB", Brand = skoda });
             context.Models.Add(new Domain.Model { Name = "OCTAVIA", Brand = skoda });
-            context.Models.Add(new Domain.Model { Name = "FABIA"  , Brand = skoda });
-            context.Models.Add(new Domain.Model { Name = "RAPID"  , Brand = skoda });
+            context.Models.Add(new Domain.Model { Name = "FABIA", Brand = skoda });
+            context.Models.Add(new Domain.Model { Name = "RAPID", Brand = skoda });
             context.SaveChanges();
 
-            context.Models.Add(new Domain.Model { Name = "ASTRA" , Brand = opel });
+            context.Models.Add(new Domain.Model { Name = "ASTRA", Brand = opel });
             context.Models.Add(new Domain.Model { Name = "VECTRA", Brand = opel });
-            context.Models.Add(new Domain.Model { Name = "CORSA" , Brand = opel });
-            context.SaveChanges();                               
+            context.Models.Add(new Domain.Model { Name = "CORSA", Brand = opel });
+            context.SaveChanges();
 
-            context.Models.Add(new Domain.Model { Name = "ACCORD", Brand = honda});
-            context.Models.Add(new Domain.Model { Name = "CR-V"  , Brand = honda});
+            context.Models.Add(new Domain.Model { Name = "ACCORD", Brand = honda });
+            context.Models.Add(new Domain.Model { Name = "CR-V", Brand = honda });
 
             context.SaveChanges();
 
@@ -86,13 +94,13 @@ namespace DB.Migrations
             context.PartBrands.Add(new Domain.PartBrand { Name = "Sachs" });
             context.SaveChanges();
 
-            var trw   = context.PartBrands
+            var trw = context.PartBrands
                                .Where(x => x.Name == "TRW")
                                .FirstOrDefault();
-            var luk   = context.PartBrands
+            var luk = context.PartBrands
                                .Where(x => x.Name == "LuK")
                                .FirstOrDefault();
-            var ina   = context.PartBrands
+            var ina = context.PartBrands
                                .Where(x => x.Name == "INA")
                                .FirstOrDefault();
             var sachs = context.PartBrands
@@ -117,10 +125,10 @@ namespace DB.Migrations
                                     .Where(x => x.Name == "Elementy Sprzegla")
                                     .FirstOrDefault();
 
-            context.Parts.Add(new Domain.Part { Name = "Wahacz"         , PartBrand = trw,   PartCategory = suspension ,SupplyDate = DateTime.Now});
-            context.Parts.Add(new Domain.Part { Name = "Zestaw rozrzadu", PartBrand = ina,   PartCategory = timingBelt ,SupplyDate = DateTime.Now });
-            context.Parts.Add(new Domain.Part { Name = "Zestaw sprzegla", PartBrand = luk,   PartCategory = clutch     ,SupplyDate = DateTime.Now });
-            context.Parts.Add(new Domain.Part { Name = "Wysprzeglik"    , PartBrand = sachs, PartCategory = clutchPart ,SupplyDate = DateTime.Now });
+            context.Parts.Add(new Domain.Part { Name = "Wahacz", PartBrand = trw, PartCategory = suspension, SupplyDate = DateTime.Now });
+            context.Parts.Add(new Domain.Part { Name = "Zestaw rozrzadu", PartBrand = ina, PartCategory = timingBelt, SupplyDate = DateTime.Now });
+            context.Parts.Add(new Domain.Part { Name = "Zestaw sprzegla", PartBrand = luk, PartCategory = clutch, SupplyDate = DateTime.Now });
+            context.Parts.Add(new Domain.Part { Name = "Wysprzeglik", PartBrand = sachs, PartCategory = clutchPart, SupplyDate = DateTime.Now });
             context.SaveChanges();
 
             context.Owners.Add(new Domain.Owner { Name = "Mateusz Kalinowski" });
@@ -131,10 +139,24 @@ namespace DB.Migrations
             var passat = context.Models
                                 .Where(x => x.Name == "PASSAT")
                                 .FirstOrDefault();
+            var audica = context.Models
+                                .Where(x => x.Name == "PASSAT")
+                                .FirstOrDefault();
             var mateo = context.Owners
                                .Where(x => x.Name == "Mateusz Kalinowski")
                                .FirstOrDefault();
-            context.Cars.Add(new Domain.Car { Model = passat, Owner = mateo });
+            var adam = context.Owners
+                              .Where(x => x.Name == "Adam Zalinowski")
+                              .FirstOrDefault();
+            var wojciech = context.Owners
+                              .Where(x => x.Name == "Wojciech Palinowski")
+                              .FirstOrDefault();
+            var year_2000 = context.ProductionYear.Where(y => y.Year == "2000").FirstOrDefault();
+            context.Cars.Add(new Domain.Car { Model = passat, Owner = mateo,HorsePower="130",PlateNumber="BIA00568",Brand=vw,ProductionYear=year_2000});
+            context.Cars.Add(new Domain.Car { Model = audica, Owner = adam, HorsePower = "130", PlateNumber = "BIA00568",Brand=audi, ProductionYear = year_2000 });
+            context.Cars.Add(new Domain.Car { Model = passat, Owner = mateo, HorsePower = "130", PlateNumber = "BIA00568",Brand=vw, ProductionYear = year_2000 });
+            context.Cars.Add(new Domain.Car { Model = passat, Owner = wojciech, HorsePower = "130", PlateNumber = "BIA00568",Brand=vw, ProductionYear = year_2000 });
+
             context.SaveChanges();
 
             var passatMateo = context.Cars
@@ -150,8 +172,8 @@ namespace DB.Migrations
                                     .Where(x => x.Name == "Zestaw sprzegla")
                                     .FirstOrDefault();
 
-            context.Repairs.Add(new Domain.Repair { Car = passatMateo, Name = "Wymiana rozrzadu", RepairDate = DateTime.Parse("26/05/2018"), Parts = new List<Domain.Part>(new Domain.Part[] { timingBeltComplet, timingBeltComplet2 })});
-            context.Repairs.Add(new Domain.Repair { Car = passatMateo, Name = "Wymiana sprzegla", RepairDate = DateTime.Parse("25/05/2018"), Parts = new List<Domain.Part>(new Domain.Part[] { clutchComplete}) });
+            context.Repairs.Add(new Domain.Repair { CarID = passatMateo.CarID, Name = "Wymiana rozrzadu",DateRepair= DateTime.Now });
+            //context.Repairs.Add(new Domain.Repair { Car = passatMateo, Name = "Wymiana sprzegla", RepairDate = DateTime.Parse("25/05/2018"), RepairNotes = null, Parts = new List<Domain.Part>(new Domain.Part[] { clutchComplete }) });
 
             context.SaveChanges();
 
