@@ -20,8 +20,8 @@ class CarList extends React.Component{
         if (this.state.data !== null) {
              commentNodes = this.state.data.map(comment =>
                 (<Car skey={comment.Id} brand={comment.Brand} model={comment.Model }>
-              {comment.Id}
-          </Car>
+                    {comment.Id}
+                </Car>
                  ));
         }
         
