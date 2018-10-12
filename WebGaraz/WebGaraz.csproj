@@ -194,6 +194,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <None Include="Scripts\Tutorial.jsx" />
+    <None Include="Scripts\Car\CarService.jsx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
