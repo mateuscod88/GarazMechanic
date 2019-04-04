@@ -2,7 +2,7 @@
     {
         id: 1,
         name: "Start",
-        rows: [{ id: 1, name: "O nas", link: "www.wp.pl" }, { id: 1, name: "O nas", link: "www.wp.pl" }, { id: 1, name: "O nas", link: "www.wp.pl" }]
+        rows: [{ id: 1, name: "O nas", link: "www.wp.pl" }, { id: 2, name: "O nas", link: "www.wp.pl" }, { id: 3, name: "O nas", link: "www.wp.pl" }]
     },
     {
         id:2,
@@ -70,4 +70,4 @@ class GarazMenuRow  extends React.Component{
 ReactDOM.render(
     <GarazMenu />,
     document.getElementById('content-menu')
-    )
+);

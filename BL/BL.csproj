@@ -86,6 +86,7 @@
     <Compile Include="Car\Services\IGetCarsByOwnerId.cs" />
     <Compile Include="Car\Services\IUpdateCar.cs" />
     <Compile Include="Car\Services\UpdateCar.cs" />
+    <Compile Include="Engine\DTO\EngineDTO.cs" />
     <Compile Include="Model\DTO\ModelDTO.cs" />
     <Compile Include="Model\Service\IModelService.cs" />
     <Compile Include="Model\Service\ModelService.cs" />

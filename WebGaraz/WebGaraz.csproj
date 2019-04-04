@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -192,7 +193,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dist\bundle.js" />
     <Content Include="Global.asax" />
+    <Content Include="package.json" />
+    <Content Include="package-lock.json" />
+    <Content Include="Scripts\DialogBoxes\AddForm.jsx" />
+    <Content Include="webpack.config.js" />
     <None Include="Scripts\Tutorial.jsx" />
     <None Include="Scripts\Car\CarService.jsx" />
     <Content Include="Web.config">
@@ -213,11 +219,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -243,6 +252,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Menu\menu.jsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\DialogBoxes\AddDialogBox.jsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\DialogBoxes\Controls\dropdown.jsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

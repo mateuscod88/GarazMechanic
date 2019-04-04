@@ -1,0 +1,55 @@
+{
+  "name": "webgaraz",
+  "version": "1.0.0",
+  "description": "garaz",
+  "main": "index.js",
+  "typings": "src/index.ts",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.0",
+    "@devexpress/dx-react-core": "^1.10.4",
+    "@devexpress/dx-react-grid": "^1.10.4",
+    "@devexpress/dx-react-grid-bootstrap3": "^1.10.4",
+    "@devexpress/dx-react-grid-bootstrap4": "^1.10.4",
+    "@devexpress/dx-react-grid-material-ui": "^1.10.4",
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-select": "^2.4.2",
+    "typescript": "^3.3.4000"
+  },
+  "-vs-binding": {
+    "BeforeBuild": [
+      "build"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "browser-sync": "^2.26.3",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-notifier": "^1.7.0"
+  }
+}
