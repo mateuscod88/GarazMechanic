@@ -417,16 +417,11 @@ class AddDialogBox extends React.Component {
         });
     };
     handleClose = () => {
-        console.log(this.state.model);
-        console.log(this.state.years.findIndex((year) => this.state.year == year.toString()));
-        console.log(this.state.years[1]);
-
-        console.log(this.state.years[1].value);
 
         var body = '{"brandId":' + this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value + ','
             + '"modelId":' + this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value + ','
             + '"engineId":' + this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].value + ','
-            + '"year":' + this.state.years[this.state.years.findIndex((year) => this.state.year == year.toString())].value + ','
+            + '"year":' + this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value + ','
             + '"techcheck":' + (document.getElementById('date')).value
             + '}';
 
