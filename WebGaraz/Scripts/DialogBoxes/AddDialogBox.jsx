@@ -138,7 +138,7 @@ const suggestions = [
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        height: 250,
+        height: '100%',
         width: 1080,
     },
     input: {
@@ -188,7 +188,7 @@ const styles = theme => ({
     },
     textField: {
         display: 'table',
-        marginLeft: theme.spacing.unit,
+        marginLeft: 0,
         marginRight: theme.spacing.unit,
 
     },
@@ -311,6 +311,7 @@ class AddDialogBox extends React.Component {
         super(props);
         this.state = {
             data: null,
+            phone: '',
             brand: [],
             singleBrand:'',
             model: [],
@@ -416,23 +417,26 @@ class AddDialogBox extends React.Component {
             [name]: value,
         });
     };
+    handleChangePhone = name => event => {
+        this.setState({
+            [name]: event.target.value,
+        });
+    };
     handleClose = () => {
 
-        var body = '{"brandId":' + this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value + ','
+        var body =
+              '{"brandId":' + this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value + ','
             + '"modelId":' + this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value + ','
             + '"engineId":' + this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].value + ','
             + '"year":' + this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value + ','
             + '"techcheck":' + (document.getElementById('date')).value
             + '}';
 
-
-        console.log(body);
-        var form = new FormData(document.getElementById('addCarForm'));
         fetch('/home/addCar',{
             method: 'POST',
             body: body
         });
-        console.log(form);
+
         this.setState({ open: false });
     };
 
@@ -558,6 +562,15 @@ class AddDialogBox extends React.Component {
                                         placeholder="Wybierz właściciela"
                                         isClearable
                                     />
+                                    <TextField
+                                        id="outlined-name"
+                                        label="Numer telefonu"
+                                        className={classes.textField}
+                                        value={this.state.phone}
+                                        onChange={this.handleChangePhone('phone')}
+                                        margin="normal"
+                                        variant="outlined"
+                                    />
                                 </NoSsr>
                             </div>
                         </form>
@@ -565,7 +578,7 @@ class AddDialogBox extends React.Component {
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Save changes
-            </Button>
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </div>
