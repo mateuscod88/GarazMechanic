@@ -13,6 +13,7 @@ namespace DB
         public DbSet<Car> Cars { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
+        public DbSet<Engine> Engines { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Part> Parts { get; set; }
         public DbSet<Repair> Repairs { get; set; }

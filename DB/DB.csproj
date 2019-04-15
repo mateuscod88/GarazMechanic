@@ -52,6 +52,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Domain\Brand.cs" />
     <Compile Include="Domain\Car.cs" />
+    <Compile Include="Domain\Engine.cs" />
     <Compile Include="Domain\Model.cs" />
     <Compile Include="Domain\Owner.cs" />
     <Compile Include="Domain\Part.cs" />
@@ -61,9 +62,9 @@
     <Compile Include="Domain\Repair.cs" />
     <Compile Include="Domain\RepairNotes.cs" />
     <Compile Include="Interface\IDatabaseService.cs" />
-    <Compile Include="Migrations\201808201214572_Initial.cs" />
-    <Compile Include="Migrations\201808201214572_Initial.Designer.cs">
-      <DependentUpon>201808201214572_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201904132337167_Init.cs" />
+    <Compile Include="Migrations\201904132337167_Init.Designer.cs">
+      <DependentUpon>201904132337167_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,8 +74,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808201214572_Initial.resx">
-      <DependentUpon>201808201214572_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904132337167_Init.resx">
+      <DependentUpon>201904132337167_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

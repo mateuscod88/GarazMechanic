@@ -1,13 +1,18 @@
 ﻿using BL.Brand.DTO;
+using BL.Brand.Service;
 using BL.Car.Services;
 using BL.Engine;
+using BL.Engine.Service;
 using BL.Model.DTO;
+using BL.Model.Service;
 using BL.Owner.DTO;
+using BL.Owner.Service;
 using DB;
 using DB.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,12 +21,20 @@ namespace WebGaraz.Controllers
     public class HomeController : Controller
     {
         private IGetAllCars _getAllCarsCommand;
+        private IBrandService _brandService;
+        private IOwnerService _ownerService;
+        private IModelService _modelService;
+        private IEngineService _engineService;
         private IDatabaseService _context;
         // GET: Home
-        public HomeController(IGetAllCars getAllCarsCommand)
+        public HomeController(IGetAllCars getAllCarsCommand, IBrandService brandService, IModelService modelService, IEngineService engineService, IOwnerService ownerService)
         {
             _context = new CarHistoryContext();
             _getAllCarsCommand = new GetAllCarQuery(_context);
+            _brandService = brandService;
+            _modelService = modelService;
+            _engineService = engineService;
+            _ownerService = ownerService;
         }
         public ActionResult Index()
         {
@@ -34,74 +47,30 @@ namespace WebGaraz.Controllers
         }
         public ActionResult AllCars()
         {
-            var allCars = new List<BrandDTO>() {
-                new BrandDTO { Name = "VW"   ,ID=1 },
-                new BrandDTO { Name = "Audi" ,ID=2 },
-                new BrandDTO { Name = "Skoda",ID=3 },
-                new BrandDTO { Name = "BMW"  ,ID=4 },
-                new BrandDTO { Name = "Ford" ,ID=5 },
-                new BrandDTO { Name = "Fiat" ,ID=6 },
-            };
-            return Json(allCars, JsonRequestBehavior.AllowGet);
+            var allBrand = _brandService.GetAllBrands();
+            return Json(allBrand, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AllModels(int id)
         {
-            var allModel = new List<ModelDTO>();
-            if (id == 2)
-            {
-                allModel.AddRange(new List<ModelDTO>(){
-                new ModelDTO{ Name = "A4",ID = 1 },
-                new ModelDTO{ Name = "A6",ID = 2},
-                new ModelDTO{ Name = "A3",ID = 3 },
-                new ModelDTO{ Name = "A8",ID = 4 },
-                new ModelDTO{ Name = "Q5",ID = 5 },
-                new ModelDTO{ Name = "Q7",ID = 6 },
-            });
-            }
-
-            return Json(allModel, JsonRequestBehavior.AllowGet);
+            var allModels = _modelService.GetAllModelsByBrandId(id);
+            return Json(allModels, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AllEnginesForCarByBrandIdAndModelId(int brandId, int modelId)
         {
-            var allEngine = new List<EngineDTO>();
-            if (brandId == 2 && modelId == 1)
-            {
-                allEngine.AddRange(
-                    new List<EngineDTO>()
-                    {
-                        new EngineDTO{Name = "1.9TDI 115KM", ID = 1},
-                        new EngineDTO{Name = "1.9TDI 90KM", ID = 2},
-                        new EngineDTO{Name = "1.9TDI 130KM", ID = 3},
-                        new EngineDTO{Name = "1.9TDI 150KM", ID = 4}
-
-                    });
-            }
-            return Json(allEngine, JsonRequestBehavior.AllowGet);
-
+            var allEngines = _engineService.GetAllByBrandAndModel(brandId,modelId);
+            return Json(allEngines, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AllOwners()
         {
-            var allOwners = new List<OwnerDTO>()
-            {
-                new OwnerDTO
-                {
-                    ID = 1,
-                    Name = "Mateusz Kalinowski"
-                },
-                new OwnerDTO
-                {
-                    ID = 2,
-                    Name = "Adam Zalinowski"
-                },
-                new OwnerDTO
-                {
-                    ID = 3,
-                    Name = "Wojciech Palinowski"
-                }
-            };
-
+            var allOwners = _ownerService.GetAll();
             return Json(allOwners, JsonRequestBehavior.AllowGet);
 
+        }
+        [HttpPost]
+        public ActionResult AddCar(int brandId, int modelId, int engineId, string year, DateTime techcheck)
+        {
+
+            return new HttpStatusCodeResult(HttpStatusCode.Created);
         }
         
 

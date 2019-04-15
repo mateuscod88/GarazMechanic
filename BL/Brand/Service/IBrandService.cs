@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BL.Brand.Service
 {
-    interface IBrandService
+    public interface IBrandService
     {
         List<BrandDTO> GetAllBrands();
         BrandDTO GetBrandById(int brandID);

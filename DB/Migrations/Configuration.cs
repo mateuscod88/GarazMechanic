@@ -88,6 +88,19 @@ namespace DB.Migrations
 
             context.SaveChanges();
 
+            var volksW = context.Brands.FirstOrDefault(x => x.Name == "VW");
+            var vwModel = context.Models.Where(x => x.Brand.BrandID == volksW.BrandID).ToList();
+
+            foreach (var model in vwModel)
+            {
+                context.Engines.Add(new Domain.Engine { Name = "1.9TDI 110KM",Brand = volksW,Model = model });
+                context.Engines.Add(new Domain.Engine { Name = "1.9TDI 115KM",Brand = volksW,Model = model });
+                context.Engines.Add(new Domain.Engine { Name = "1.9TDI 130KM",Brand = volksW,Model = model });
+                context.Engines.Add(new Domain.Engine { Name = "1.9TDI 90KM", Brand = volksW, Model = model });
+            }
+            context.SaveChanges();
+            
+
             context.PartBrands.Add(new Domain.PartBrand { Name = "TRW" });
             context.PartBrands.Add(new Domain.PartBrand { Name = "LuK" });
             context.PartBrands.Add(new Domain.PartBrand { Name = "INA" });

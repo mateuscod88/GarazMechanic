@@ -1,6 +1,10 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using BL.Brand.Service;
 using BL.Car.Services;
+using BL.Engine.Service;
+using BL.Model.Service;
+using BL.Owner.Service;
 using DB;
 using DB.Interface;
 using System;
@@ -22,6 +26,14 @@ namespace WebGaraz
             builder.RegisterType<GetAllCarQuery>()
                    .As<IGetAllCars>()
                    .InstancePerDependency();
+            builder.RegisterType<BrandService>()
+                   .As<IBrandService>();
+            builder.RegisterType<ModelService>()
+                   .As<IModelService>();
+            builder.RegisterType<EngineService>()
+                   .As<IEngineService>();
+            builder.RegisterType<OwnerService>()
+                   .As<IOwnerService>();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             var container = builder.Build();

@@ -8,7 +8,7 @@ using BL.Owner.DTO;
 
 namespace BL.Owner.Service
 {
-    interface IOwnerService
+    public interface IOwnerService
     {
         List<OwnerDTO> GetAll();
         OwnerDTO GetById(int ownerId);

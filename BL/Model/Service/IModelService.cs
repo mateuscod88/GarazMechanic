@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BL.Model.Service
 {
-    interface IModelService
+    public interface IModelService
     {
         List<ModelDTO> GetAllModelsByBrandId(int brandId);
         ModelDTO GetModelById(int modelId);
