@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BL.Car.Services
 {
-    public interface ICreateCar
+    public interface IGetCarByPlateNumber
     {
-         void Execute(CarDTO carDto);
+        CarDTO Execute(string plateNumber);
     }
 }

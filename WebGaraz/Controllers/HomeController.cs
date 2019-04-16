@@ -1,5 +1,6 @@
 ﻿using BL.Brand.DTO;
 using BL.Brand.Service;
+using BL.Car.DTO;
 using BL.Car.Services;
 using BL.Engine;
 using BL.Engine.Service;
@@ -20,6 +21,9 @@ namespace WebGaraz.Controllers
 {
     public class HomeController : Controller
     {
+        private IGetCarByPlateNumber _getCarByPlateNumber;
+        private IGetCarById _getCarByIdCommand;
+        private ICreateCar _createCarCommand;
         private IGetAllCars _getAllCarsCommand;
         private IBrandService _brandService;
         private IOwnerService _ownerService;
@@ -27,14 +31,17 @@ namespace WebGaraz.Controllers
         private IEngineService _engineService;
         private IDatabaseService _context;
         // GET: Home
-        public HomeController(IGetAllCars getAllCarsCommand, IBrandService brandService, IModelService modelService, IEngineService engineService, IOwnerService ownerService)
+        public HomeController(IGetCarByPlateNumber getCarByPlateNumber,IGetCarById getCarByIdCommand,ICreateCar createCarCommand,IGetAllCars getAllCarsCommand, IBrandService brandService, IModelService modelService, IEngineService engineService, IOwnerService ownerService)
         {
             _context = new CarHistoryContext();
+            _getCarByPlateNumber = getCarByPlateNumber;
+            _createCarCommand = createCarCommand;
             _getAllCarsCommand = new GetAllCarQuery(_context);
             _brandService = brandService;
             _modelService = modelService;
             _engineService = engineService;
             _ownerService = ownerService;
+            _getCarByIdCommand = getCarByIdCommand;
         }
         public ActionResult Index()
         {
@@ -67,10 +74,37 @@ namespace WebGaraz.Controllers
 
         }
         [HttpPost]
-        public ActionResult AddCar(int brandId, int modelId, int engineId, string year, DateTime techcheck)
+        public ActionResult AddCar(CarDTO carDTO)
         {
+            
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var modelErrors = new List<string>();
+                    foreach (var value in ModelState.Values)
+                    {
+                        foreach (var modelError in value.Errors)
+                        {
+                            modelErrors.Add(modelError.ErrorMessage);
+                        }
 
-            return new HttpStatusCodeResult(HttpStatusCode.Created);
+                    }
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, string.Join(",", modelErrors));
+                }
+                var isAlreadyCreated = _getCarByPlateNumber.Execute(carDTO.PlateNumber) == null ?  false : true;
+                if (isAlreadyCreated)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest,"Car with this plate number already exist");
+                }
+                _createCarCommand.Execute(carDTO);
+                return new HttpStatusCodeResult(HttpStatusCode.Created);
+
+            }
+            catch (Exception e)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
         
 

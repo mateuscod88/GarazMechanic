@@ -34,6 +34,12 @@ namespace WebGaraz
                    .As<IEngineService>();
             builder.RegisterType<OwnerService>()
                    .As<IOwnerService>();
+            builder.RegisterType<CreateCarCmd>()
+                    .As<ICreateCar>();
+            builder.RegisterType<GetCarById>()
+                   .As<IGetCarById>();
+            builder.RegisterType<GetCarByPlateNumber>()
+                   .As<IGetCarByPlateNumber>();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             var container = builder.Build();

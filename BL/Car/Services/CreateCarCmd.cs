@@ -8,7 +8,7 @@ using BL.Car.DTO;
 
 namespace BL.Car.Services
 {
-    public class CreateCarCmd
+    public class CreateCarCmd : ICreateCar
     {
         private DB.Interface.IDatabaseService _context;
         public CreateCarCmd(DB.Interface.IDatabaseService context)

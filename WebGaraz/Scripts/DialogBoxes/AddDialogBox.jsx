@@ -424,17 +424,24 @@ class AddDialogBox extends React.Component {
     };
     handleClose = () => {
 
-        var body =
-              '{"brandId":' + this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value + ','
-            + '"modelId":' + this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value + ','
-            + '"engineId":' + this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].value + ','
-            + '"year":' + this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value + ','
-            + '"techcheck":' + (document.getElementById('date')).value
-            + '}';
+        var carDTO =
+        {
+            BrandId: this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value,
+            ModelId: this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value,
+            EngineId: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].value,
+            Year: this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value,
+            TechnicalCheck: (document.getElementById('date')).value,
+            PlateNumber: this.state.regNumber
+        };
 
-        fetch('/home/addCar',{
+
+        fetch('/home/addCar', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             method: 'POST',
-            body: body
+            body: JSON.stringify(carDTO)
         });
 
         this.setState({ open: false });
