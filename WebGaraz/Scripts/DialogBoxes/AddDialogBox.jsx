@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 
 import classNames from 'classnames';
 import Select from 'react-select';
@@ -140,6 +142,10 @@ const styles = theme => ({
         flexGrow: 1,
         height: '100%',
         width: 1080,
+    },
+    formControl: {
+        margin: theme.spacing.unit,
+        minWidth: 300,
     },
     input: {
         display: 'flex',
@@ -312,15 +318,20 @@ class AddDialogBox extends React.Component {
         this.state = {
             data: null,
             phone: '',
+            phoneErrorText:'',
             brand: [],
             singleBrand:'',
             model: [],
             singleModel: '',
+            isCarModelValid: false,
+            isCarBrandValid: false,
+            isCarEngineValid: false,
             engine: [],
             singleEngine:'',
             open: false,
             name: 'Cat in the Hat',
             counter: '',
+            counterErrorText : '',
             regNumber: '',
             owner: '',
             owners: [],
@@ -354,6 +365,31 @@ class AddDialogBox extends React.Component {
             
     }
     
+    NumberValidation = (value,name,length,errorMsg) => {
+        var regex = /^\d+$/;
+        if (!(value === null)) {
+            if ((value.match(regex) && value.length < length) || value === "") {
+                this.setState({
+                    [name]: value,
+                    [errorMsg]: ''
+                });
+            }
+            else if (value.length === length) {
+
+            }
+            else {
+                this.setState({
+                    [errorMsg]: 'Tylko cyfry',
+                })
+            }
+        }
+        else {
+            this.setState({
+                [name]: '',
+                [errorMsg]: '',
+            })
+        }
+    }
 
     handleClickOpen = () => {
         this.setState({
@@ -381,6 +417,7 @@ class AddDialogBox extends React.Component {
             }));
         this.setState({
             [name]: value,
+            isCarBrandValid: false,
         });
         
     };
@@ -395,21 +432,21 @@ class AddDialogBox extends React.Component {
             }));
         this.setState({
             [name]: value,
+            isCarModelValid : false,
         });
     };
     handleChangeEngine = name => value => {
         this.setState({
             [name]: value,
+            isCarEngineValid: false,
         });
     };
     handleChangeCounter = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        });
+        this.NumberValidation(event.target.value, name, 8, 'counterErrorText');
     };
     handleChangeRegNumber = name => event => {
         this.setState({
-            [name]: event.target.value,
+            [name]: event.target.value.toUpperCase(),
         });
     };
     handleChangeOwner = name => value => {
@@ -418,33 +455,47 @@ class AddDialogBox extends React.Component {
         });
     };
     handleChangePhone = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        });
+        this.NumberValidation(event.target.value, name, 15,'phoneErrorText');
     };
     handleClose = () => {
-
-        var carDTO =
-        {
-            BrandId: this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value,
-            ModelId: this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value,
-            EngineId: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].value,
-            Year: this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value,
-            TechnicalCheck: (document.getElementById('date')).value,
-            PlateNumber: this.state.regNumber
-        };
-
-
-        fetch('/home/addCar', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(carDTO)
-        });
-
         this.setState({ open: false });
+    }
+    handleSaveButton = () => {
+        var isCarModelInvalid = this.state.singleModel === '';
+        var isCarBrandInvalid = this.state.singleBrand === '';
+        var isCarEngineInvalid = this.state.singleEngine === '';
+        if (isCarModelInvalid) {
+            this.setState({ isCarModelValid : true });
+        }
+        if (isCarBrandInvalid) {
+            this.setState({ isCarBrandValid : true });
+        }
+        if (isCarEngineInvalid) {
+            this.setState({ isCarEngineValid : true });
+        }
+        if (!isCarModelInvalid && !isCarBrandInvalid && !isCarEngineInvalid) {
+            var carDTO =
+            {
+                BrandId: this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value,
+                ModelId: this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value,
+                EngineId: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].value,
+                Year: this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value,
+                TechnicalCheck: (document.getElementById('date')).value,
+                PlateNumber: this.state.regNumber
+            };
+
+
+            fetch('/home/addCar', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(carDTO)
+            });
+
+            this.setState({ open: false });
+        }
     };
 
     render() {
@@ -477,6 +528,7 @@ class AddDialogBox extends React.Component {
 
                             <div className={classes.root}>
                                 <NoSsr>
+                                    <FormControl className={classes.formControl} error={this.state.isCarBrandValid}>
                                     <Select
                                         classes={classes}
                                         styles={selectStyles}
@@ -486,8 +538,11 @@ class AddDialogBox extends React.Component {
                                         onChange={this.handleChangeBrand('singleBrand')}
                                         placeholder="Wybierz Marke"
                                         isClearable
-                                    />
+                                        />
+                                        {this.state.isCarBrandValid && <FormHelperText> This is required!</FormHelperText>}
+                                    </FormControl>
                                     <div className={classes.divider} />
+                                    <FormControl className={classes.formControl} error={this.state.isCarModelValid}>
                                     <Select
                                         classes={classes}
                                         styles={selectStyles}
@@ -497,8 +552,11 @@ class AddDialogBox extends React.Component {
                                         onChange={this.handleChangeModel('singleModel')}
                                         placeholder="Wybierz Model"
                                         isClearable
-                                    />
+                                        />
+                                        {this.state.isCarModelValid && <FormHelperText>This is required!</FormHelperText>}
+                                    </FormControl>
                                     <div className={classes.divider} />
+                                    <FormControl className={classes.formControl} error={this.state.isCarEngineValid}>
                                     <Select
                                         classes={classes}
                                         styles={selectStyles}
@@ -508,7 +566,9 @@ class AddDialogBox extends React.Component {
                                         onChange={this.handleChangeEngine('singleEngine')}
                                         placeholder="Wybierz Silnik"
                                         isClearable
-                                    />
+                                        />
+                                        {this.state.isCarEngineValid && <FormHelperText>This is required!</FormHelperText>}
+                                    </FormControl>
                                     <TextField
                                         id="outlined-select-currency"
                                         select
@@ -531,10 +591,13 @@ class AddDialogBox extends React.Component {
                                             </MenuItem>
                                         ))}
                                     </TextField>
+
                                     <TextField
                                         id="outlined-name"
                                         label="Stan Licznika"
+                                        error={this.state.counterErrorText.length !== 0 ? true : false}
                                         className={classes.textField}
+                                        helperText={this.state.counterErrorText}
                                         value={this.state.counter}
                                         onChange={this.handleChangeCounter('counter')}
                                         margin="normal"
@@ -572,6 +635,8 @@ class AddDialogBox extends React.Component {
                                     <TextField
                                         id="outlined-name"
                                         label="Numer telefonu"
+                                        error={this.state.phoneErrorText.length !== 0 ? true : false}
+                                        helperText={this.state.phoneErrorText}
                                         className={classes.textField}
                                         value={this.state.phone}
                                         onChange={this.handleChangePhone('phone')}
@@ -583,7 +648,7 @@ class AddDialogBox extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button onClick={this.handleSaveButton} color="primary">
                             Save changes
                         </Button>
                     </DialogActions>
