@@ -22,9 +22,11 @@ namespace BL.Car.DTO
         public string Phone { get; set; }
         public string Year { get; set; }
         public string HorsePower { get; set; }
+        public string Engine { get; set; }
         [Required(ErrorMessage = "Plate number required")]
         public string PlateNumber { get; set; }
-        public DateTime TechnicalCheck { get; set; }
+        public DateTime? TechnicalCheck { get; set; }
+        public DateTime? LatestOilChange { get; set; }
         public List<RepairDTO> Repairs { get; set; }
 
     }

@@ -8,9 +8,10 @@ namespace DB.Domain
 {
     public class Engine
     {
-            public int EngineID { get; set; }
-            public string Name { get; set; }
-            public Brand Brand { get; set; }
-            public Model Model { get; set; }
+        public int EngineID { get; set; }
+        public string Name { get; set; }
+        public string Power{ get; set; }
+        public Brand Brand { get; set; }
+        public Model Model { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿import React, { Component } from 'react';
 import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
-import { EditingState } from '@devexpress/dx-react-grid';
-import { Grid, Table, TableHeaderRow, TableEditColumn } from '@devexpress/dx-react-grid-material-ui';
+import { EditingState,PagingState,IntegratedPaging } from '@devexpress/dx-react-grid';
+import { Grid, Table, TableHeaderRow, TableEditColumn,PagingPanel } from '@devexpress/dx-react-grid-material-ui';
+import { debug } from 'util';
 
 
 class CarGrid extends Component {
@@ -18,14 +19,43 @@ class CarGrid extends Component {
                     { name: 'dueDateTechService', title: 'Następny Przegląd' },
                     { name: 'lastOilChange', title: 'Wymiana Oleju' }
                 ],
-            rows:
-                [
-                    { id: 1, model: "A4", brand: "Audi", engine: "1.9Tdi", regNum: "BIA8704", phone: "513524045", dueDateTechService: "10.04.2019", lastOilChange: "200tys" },
-                    { id: 2, model: "A4", brand: "Audi", engine: "1.9Tdi", regNum: "BIA8704", phone: "513524045", dueDateTechService: "10.04.2019", lastOilChange: "200tys" },
-                    { id: 3, model: "A4", brand: "Audi", engine: "1.9Tdi", regNum: "BIA8704", phone: "513524045", dueDateTechService: "10.04.2019", lastOilChange: "200tys" },
-                ]
+            rows: [],
 
         };
+    }
+    componentDidMount() {
+         fetch('/home/AllCarsRegistered')
+            .then(response => response.json())
+            .then(data => this.setState({
+                rows: (data.map(suggestion => ({
+                    id: suggestion.Id,
+                    model: suggestion.Model,
+                    brand: suggestion.Brand,
+                    engine: suggestion.Engine,
+                    regNum: suggestion.PlateNumber,
+                    phone: suggestion.Phone,
+                    dueDateTechService: suggestion.TechnicalCheck,
+                    lastOilChange: suggestion.LatestOilChange
+                }))),
+            }));
+    }
+    componentDidUpdate(prevProps) {
+        if (this.props.update == true) {
+            fetch('/home/AllCarsRegistered')
+                .then(response => response.json())
+                .then(data => this.setState({
+                    rows: (data.map(suggestion => ({
+                        id: suggestion.Id,
+                        model: suggestion.Model,
+                        brand: suggestion.Brand,
+                        engine: suggestion.Engine,
+                        regNum: suggestion.PlateNumber,
+                        phone: suggestion.Phone,
+                        dueDateTechService: suggestion.TechnicalCheck,
+                        lastOilChange: suggestion.LatestOilChange
+                    }))),
+                }));
+        }
     }
     commitChanges({ added, changed, deleted }) {
         let { rows } = this.state;
@@ -40,17 +70,24 @@ class CarGrid extends Component {
         }
     }
     render() {
+        
         const { columns, rows } = this.state;
         return (
             <div class="car-grid-de">
                 <Grid
                     rows={rows}
                     columns={columns}>
+                    <PagingState
+                        defaultCurrentPage={0}
+                        pageSize={5}
+                    />
+                    <IntegratedPaging />
                     <EditingState
                         onCommitChanges={this.commitChanges}
                     />
                     <Table />
                     <TableHeaderRow />
+                    <PagingPanel />
                     <TableEditColumn
                         showAddCommand
                         showEditCommand

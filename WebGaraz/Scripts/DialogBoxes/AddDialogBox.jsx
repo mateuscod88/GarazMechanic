@@ -14,6 +14,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
+import CarGrid from '../../src/App.js';
+
 import classNames from 'classnames';
 import Select from 'react-select';
 
@@ -24,6 +26,7 @@ import Chip from '@material-ui/core/Chip';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
+import { validateLocaleAndSetLanguage } from 'typescript';
 
 const DialogTitle = withStyles(theme => ({
     root: {
@@ -193,7 +196,8 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     textField: {
-        display: 'table',
+        display: 'flex',
+        width:300,
         marginLeft: 0,
         marginRight: theme.spacing.unit,
 
@@ -329,24 +333,29 @@ class AddDialogBox extends React.Component {
             engine: [],
             singleEngine:'',
             open: false,
+            updateCarGrid:false,
             name: 'Cat in the Hat',
             counter: '',
             counterErrorText : '',
             regNumber: '',
+            regNumError:'',
             owner: '',
             owners: [],
+            isOwnerValid: false,
             age: '',
             year: '',
+            yearError:'',
             years: years,
             multiline: 'Controlled',
             currency: 'EUR',
             single: 'dobri',
             multi: null,
+            rows:[],
         };
     }
 
     componentDidMount() {
-        fetch('/home/allcars')
+        fetch('/home/AllBrands')
             .then(response => response.json())
             .then(data => this.setState({
                 brand:(data.map(suggestion => ({
@@ -362,6 +371,7 @@ class AddDialogBox extends React.Component {
                     label: suggestion.Name,
                 }))),
             }));
+      
             
     }
     
@@ -399,6 +409,7 @@ class AddDialogBox extends React.Component {
     handleChangeDropDown = name => event => {
         this.setState({
             [name]: event.target.value,
+            yearError:'',
         });
     };
     handleChange = name => value => {
@@ -447,15 +458,20 @@ class AddDialogBox extends React.Component {
     handleChangeRegNumber = name => event => {
         this.setState({
             [name]: event.target.value.toUpperCase(),
+            regNumError:'',
         });
     };
     handleChangeOwner = name => value => {
         this.setState({
             [name]: value,
+            phoneErrorText:'',
         });
     };
     handleChangePhone = name => event => {
-        this.NumberValidation(event.target.value, name, 15,'phoneErrorText');
+        this.NumberValidation(event.target.value, name, 15, 'phoneErrorText');
+        this.setState({
+            isOwnerValid: false,
+        });
     };
     handleClose = () => {
         this.setState({ open: false });
@@ -464,6 +480,11 @@ class AddDialogBox extends React.Component {
         var isCarModelInvalid = this.state.singleModel === '';
         var isCarBrandInvalid = this.state.singleBrand === '';
         var isCarEngineInvalid = this.state.singleEngine === '';
+        var isPhoneInvalid = this.state.phone === '';
+        var isOwnerNotSelected = this.state.owner === '' || this.state.owner === null; 
+        var isYearInvalid = this.state.year === '';
+        var isRegNumInvalid = this.state.regNumber === '';
+
         if (isCarModelInvalid) {
             this.setState({ isCarModelValid : true });
         }
@@ -473,12 +494,28 @@ class AddDialogBox extends React.Component {
         if (isCarEngineInvalid) {
             this.setState({ isCarEngineValid : true });
         }
-        if (!isCarModelInvalid && !isCarBrandInvalid && !isCarEngineInvalid) {
+        if (isPhoneInvalid && isOwnerNotSelected) {
+            this.setState({
+                phoneErrorText: 'Telefon lub właściciel wymagany',
+                isOwnerValid: true,
+            });
+        }
+        if (isRegNumInvalid) {
+            this.setState({
+                regNumError: 'Numer rejestracyjny wymagany',
+            });
+        }
+        if (isYearInvalid) {
+            this.setState({
+                yearError: 'Rok produkcji wymagany',
+            });
+        }
+        if (!isCarModelInvalid && !isCarBrandInvalid && !isCarEngineInvalid && (!isOwnerNotSelected || !isPhoneInvalid)) {
             var carDTO =
             {
                 BrandId: this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value,
                 ModelId: this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value,
-                EngineId: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].value,
+                Engine: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].label,
                 Year: this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value,
                 TechnicalCheck: (document.getElementById('date')).value,
                 PlateNumber: this.state.regNumber
@@ -494,7 +531,10 @@ class AddDialogBox extends React.Component {
                 body: JSON.stringify(carDTO)
             });
 
-            this.setState({ open: false });
+            this.setState({
+                open: false,
+                updateCarGrid:true,
+            });
         }
     };
 
@@ -512,8 +552,9 @@ class AddDialogBox extends React.Component {
         };
         return (
             <div>
+                <CarGrid update={this.state.updateCarGrid}  />
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
-                    Open dialog
+                    Dodaj Nowe Auto
                 </Button>
                 <Dialog
                     onClose={this.handleClose}
@@ -572,7 +613,8 @@ class AddDialogBox extends React.Component {
                                     <TextField
                                         id="outlined-select-currency"
                                         select
-                                        label="Select"
+                                        error={this.state.yearError.length !== 0 ? true : false}
+                                        label="Wybierz rok produkcji"
                                         className={classes.textField}
                                         value={this.state.year}
                                         onChange={this.handleChangeDropDown('year')}
@@ -581,7 +623,7 @@ class AddDialogBox extends React.Component {
                                                 className: classes.menu,
                                             },
                                         }}
-                                        helperText="Wybierz rok produkcji"
+                                        helperText={this.state.yearError}
                                         margin="normal"
                                         variant="outlined"
                                     >
@@ -606,6 +648,8 @@ class AddDialogBox extends React.Component {
                                     <TextField
                                         id="outlined-name"
                                         label="Numer Rejestracyjny"
+                                        error={this.state.regNumError.length !== 0 ? true : false}
+                                        helperText={this.state.regNumError}
                                         className={classes.textField}
                                         value={this.state.regNumber}
                                         onChange={this.handleChangeRegNumber('regNumber')}
@@ -622,6 +666,8 @@ class AddDialogBox extends React.Component {
                                         }}
 
                                     />
+                                    <FormControl className={classes.formControl} error={this.state.isOwnerValid}>
+
                                     <Select
                                         classes={classes}
                                         styles={selectStyles}
@@ -631,7 +677,9 @@ class AddDialogBox extends React.Component {
                                         onChange={this.handleChangeOwner('owner')}
                                         placeholder="Wybierz właściciela"
                                         isClearable
-                                    />
+                                        />
+                                        {this.state.isOwnerValid && <FormHelperText>{this.state.phoneErrorText}</FormHelperText>}
+                                    </FormControl>
                                     <TextField
                                         id="outlined-name"
                                         label="Numer telefonu"
@@ -649,11 +697,13 @@ class AddDialogBox extends React.Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleSaveButton} color="primary">
-                            Save changes
+                            Dodaj Auto
                         </Button>
                     </DialogActions>
                 </Dialog>
+                
             </div>
+           
         );
     }
 }

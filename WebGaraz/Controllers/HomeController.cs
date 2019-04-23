@@ -16,32 +16,33 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using WebGaraz.Models.Car;
 
 namespace WebGaraz.Controllers
 {
     public class HomeController : Controller
     {
+        private IGetAllCars _getAllCarsQuery;
         private IGetCarByPlateNumber _getCarByPlateNumber;
         private IGetCarById _getCarByIdCommand;
         private ICreateCar _createCarCommand;
-        private IGetAllCars _getAllCarsCommand;
         private IBrandService _brandService;
         private IOwnerService _ownerService;
         private IModelService _modelService;
         private IEngineService _engineService;
         private IDatabaseService _context;
         // GET: Home
-        public HomeController(IGetCarByPlateNumber getCarByPlateNumber,IGetCarById getCarByIdCommand,ICreateCar createCarCommand,IGetAllCars getAllCarsCommand, IBrandService brandService, IModelService modelService, IEngineService engineService, IOwnerService ownerService)
+        public HomeController(IGetCarByPlateNumber getCarByPlateNumber,IGetCarById getCarByIdCommand,ICreateCar createCarCommand, IBrandService brandService, IModelService modelService, IEngineService engineService, IOwnerService ownerService, IGetAllCars getAllCarsQuery)
         {
             _context = new CarHistoryContext();
             _getCarByPlateNumber = getCarByPlateNumber;
             _createCarCommand = createCarCommand;
-            _getAllCarsCommand = new GetAllCarQuery(_context);
             _brandService = brandService;
             _modelService = modelService;
             _engineService = engineService;
             _ownerService = ownerService;
             _getCarByIdCommand = getCarByIdCommand;
+            _getAllCarsQuery = getAllCarsQuery;
         }
         public ActionResult Index()
         {
@@ -49,10 +50,11 @@ namespace WebGaraz.Controllers
         }
         public ActionResult AllCarsRegistered()
         {
-            var allCars = _getAllCarsCommand.Execute();
-            return Json(allCars, JsonRequestBehavior.AllowGet);
+            var allCars = _getAllCarsQuery.Execute();
+            var allCarsModel = allCars.Select(x => new CarModel { Brand = x.Brand, BrandId = x.BrandId, Engine = x.Engine, HorsePower = x.HorsePower, Id = x.Id, LatestOilChange = "", Model = x.Model, ModelId = x.ModelId, Name = x.Name, OwnerId = x.OwnerId, OwnerName = x.OwnerName, Phone = x.Phone, PlateNumber = x.PlateNumber, TechnicalCheck = x.TechnicalCheck.ToString(), Year = x.Year }).ToList();
+            return Json(allCarsModel, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult AllCars()
+        public ActionResult AllBrands()
         {
             var allBrand = _brandService.GetAllBrands();
             return Json(allBrand, JsonRequestBehavior.AllowGet);

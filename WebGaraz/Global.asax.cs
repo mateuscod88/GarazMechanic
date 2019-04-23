@@ -40,6 +40,7 @@ namespace WebGaraz
                    .As<IGetCarById>();
             builder.RegisterType<GetCarByPlateNumber>()
                    .As<IGetCarByPlateNumber>();
+            
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             var container = builder.Build();

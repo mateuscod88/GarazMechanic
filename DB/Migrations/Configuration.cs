@@ -165,10 +165,12 @@ namespace DB.Migrations
                               .Where(x => x.Name == "Wojciech Palinowski")
                               .FirstOrDefault();
             var year_2000 = context.ProductionYear.Where(y => y.Year == "2000").FirstOrDefault();
-            context.Cars.Add(new Domain.Car { Model = passat, Owner = mateo,HorsePower="130",PlateNumber="BIA00568",Brand=vw,ProductionYear=year_2000});
-            context.Cars.Add(new Domain.Car { Model = audica, Owner = adam, HorsePower = "130", PlateNumber = "BIA00568",Brand=audi, ProductionYear = year_2000 });
-            context.Cars.Add(new Domain.Car { Model = passat, Owner = mateo, HorsePower = "130", PlateNumber = "BIA00568",Brand=vw, ProductionYear = year_2000 });
-            context.Cars.Add(new Domain.Car { Model = passat, Owner = wojciech, HorsePower = "130", PlateNumber = "BIA00568",Brand=vw, ProductionYear = year_2000 });
+            var engineVwPassat = context.Engines.FirstOrDefault(x=> x.Brand.BrandID == vw.BrandID && x.Model.ModelID == passat.ModelID);
+
+            context.Cars.Add(new Domain.Car { Model = passat, Owner = mateo, HorsePower = "130", PlateNumber = "BIA00568", Brand = vw, ProductionYear = year_2000, Engine = engineVwPassat });
+            context.Cars.Add(new Domain.Car { Model = passat, Owner = adam, HorsePower = "130", PlateNumber = "BIA00568", Brand = vw, ProductionYear = year_2000, Engine = engineVwPassat });
+            context.Cars.Add(new Domain.Car { Model = passat, Owner = mateo, HorsePower = "130", PlateNumber = "BIA00568", Brand = vw, ProductionYear = year_2000, Engine = engineVwPassat });
+            context.Cars.Add(new Domain.Car { Model = passat, Owner = wojciech, HorsePower = "130", PlateNumber = "BIA00568", Brand = vw, ProductionYear = year_2000, Engine = engineVwPassat });
 
             context.SaveChanges();
 
