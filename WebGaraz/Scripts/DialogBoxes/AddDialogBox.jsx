@@ -26,7 +26,6 @@ import Chip from '@material-ui/core/Chip';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
-import { validateLocaleAndSetLanguage } from 'typescript';
 
 const DialogTitle = withStyles(theme => ({
     root: {
@@ -69,25 +68,6 @@ const DialogActions = withStyles(theme => ({
     },
 }))(MuiDialogActions);
 
-
-const currencies = [
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
-    },
-];
 function generateYearsArray(years) {
     var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
@@ -100,45 +80,7 @@ function generateYearsArray(years) {
 let years = [];
 generateYearsArray(years);
 
-const suggestions = [
-    { label: 'Afghanistan' },
-    { label: 'Aland Islands' },
-    { label: 'Albania' },
-    { label: 'Algeria' },
-    { label: 'American Samoa' },
-    { label: 'Andorra' },
-    { label: 'Angola' },
-    { label: 'Anguilla' },
-    { label: 'Antarctica' },
-    { label: 'Antigua and Barbuda' },
-    { label: 'Argentina' },
-    { label: 'Armenia' },
-    { label: 'Aruba' },
-    { label: 'Australia' },
-    { label: 'Austria' },
-    { label: 'Azerbaijan' },
-    { label: 'Bahamas' },
-    { label: 'Bahrain' },
-    { label: 'Bangladesh' },
-    { label: 'Barbados' },
-    { label: 'Belarus' },
-    { label: 'Belgium' },
-    { label: 'Belize' },
-    { label: 'Benin' },
-    { label: 'Bermuda' },
-    { label: 'Bhutan' },
-    { label: 'Bolivia, Plurinational State of' },
-    { label: 'Bonaire, Sint Eustatius and Saba' },
-    { label: 'Bosnia and Herzegovina' },
-    { label: 'Botswana' },
-    { label: 'Bouvet Island' },
-    { label: 'Brazil' },
-    { label: 'British Indian Ocean Territory' },
-    { label: 'Brunei Darussalam' },
-].map(suggestion => ({
-    value: suggestion.label,
-    label: suggestion.label,
-}));
+
 
 const styles = theme => ({
     root: {
@@ -347,7 +289,6 @@ class AddDialogBox extends React.Component {
             yearError:'',
             years: years,
             multiline: 'Controlled',
-            currency: 'EUR',
             single: 'dobri',
             multi: null,
             rows:[],
@@ -555,6 +496,12 @@ class AddDialogBox extends React.Component {
                 <CarGrid update={this.state.updateCarGrid}  />
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
                     Dodaj Nowe Auto
+                </Button>
+                <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
+                    Edytuj Auto
+                </Button>
+                <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
+                    Dodaj Naprawe
                 </Button>
                 <Dialog
                     onClose={this.handleClose}
