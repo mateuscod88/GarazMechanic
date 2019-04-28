@@ -1,9 +1,8 @@
 ﻿import React, { Component } from 'react';
-import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
-import { EditingState,PagingState,IntegratedPaging } from '@devexpress/dx-react-grid';
-import { Grid, Table, TableHeaderRow, TableEditColumn,PagingPanel } from '@devexpress/dx-react-grid-material-ui';
-import { debug } from 'util';
+import { EditingState, PagingState, IntegratedPaging, SelectionState } from '@devexpress/dx-react-grid';
+import { Grid, Table, TableHeaderRow, TableEditColumn, PagingPanel, TableSelection } from '@devexpress/dx-react-grid-material-ui';
 
+const getRowId = row => row.id;
 
 class CarGrid extends Component {
     constructor(props) {
@@ -20,6 +19,8 @@ class CarGrid extends Component {
                     { name: 'lastOilChange', title: 'Wymiana Oleju' }
                 ],
             rows: [],
+            selectedRows:0,
+            selection:[],
 
         };
     }
@@ -30,12 +31,19 @@ class CarGrid extends Component {
                 rows: (data.map(suggestion => ({
                     id: suggestion.Id,
                     model: suggestion.Model,
+                    modelId: suggestion.ModelId,
                     brand: suggestion.Brand,
+                    brandId: suggestion.BrandId,
                     engine: suggestion.Engine,
+                    engineId: suggestion.EngineId,
                     regNum: suggestion.PlateNumber,
                     phone: suggestion.Phone,
+                    counter: suggestion.KilometerCounter,
                     dueDateTechService: suggestion.TechnicalCheck,
-                    lastOilChange: suggestion.LatestOilChange
+                    lastOilChange: suggestion.LatestOilChange,
+                    owner: { id: suggestion.OwnerId, name: suggestion.OwnerName },
+                    phone: suggestion.Phone,
+                    year: suggestion.Year,
                 }))),
             }));
     }
@@ -47,12 +55,19 @@ class CarGrid extends Component {
                     rows: (data.map(suggestion => ({
                         id: suggestion.Id,
                         model: suggestion.Model,
+                        modelId: suggestion.ModelId,
                         brand: suggestion.Brand,
+                        brandId: suggestion.BrandId,
                         engine: suggestion.Engine,
+                        engineId: suggestion.EngineId,
                         regNum: suggestion.PlateNumber,
                         phone: suggestion.Phone,
+                        counter: suggestion.KilometerCounter,
                         dueDateTechService: suggestion.TechnicalCheck,
-                        lastOilChange: suggestion.LatestOilChange
+                        lastOilChange: suggestion.LatestOilChange,
+                        owner: { id: suggestion.OwnerId, name: suggestion.OwnerName },
+                        phone: suggestion.Phone,
+                        year: suggestion.Year,
                     }))),
                 }));
         }
@@ -69,14 +84,47 @@ class CarGrid extends Component {
 
         }
     }
-    render() {
+    changeSelection = selection => {
+        var sel = [];
+        sel[0] = selection[selection.length - 1];
+        var rowId = sel[0];
+        debugger;
+        var row = this.state.rows[this.state.rows.findIndex(row => row.id == rowId)];
+        var dialogBtn = this.props.selectChange;
+        if (selection.length != 0) {
+            dialogBtn.setState({
+                row: row,
+                isRowSelected: false,
+            });
+        }
+        else {
+            dialogBtn.setState({
+                isRowSelected: true,
+            });
+        }
+        debugger;
         
-        const { columns, rows } = this.state;
+        this.setState({ selection: sel, selectedRows: sel[0], });
+    }
+    toggleSelectionRow = (rowIds, state) => {
+        debugger;
+        var st = rowIds;
+
+    }
+    render() {
+
+        const { columns, rows, selection } = this.state;
         return (
             <div class="car-grid-de">
                 <Grid
                     rows={rows}
-                    columns={columns}>
+                    columns={columns}
+                    getRowId={getRowId}>
+
+                    <SelectionState
+                        selection={selection}
+                        onSelectionChange={this.changeSelection}
+                    />
                     <PagingState
                         defaultCurrentPage={0}
                         pageSize={5}
@@ -92,6 +140,11 @@ class CarGrid extends Component {
                         showAddCommand
                         showEditCommand
                         showDeleteCommand
+                    />
+                    <TableSelection
+                        selectByRowClick
+                        highlightRow
+                        showSelectionColumn={false}
                     />
                 </Grid>
             </div>

@@ -33,6 +33,7 @@ namespace BL.Car.Services
                 car.Repairs = null;
                 car.Brand = brand;
                 car.Engine = engine;
+                car.KilometerCounter = carDto.KilometerCounter;
                 car.TechnicalCheck = carDto.TechnicalCheck;
                 car.Phone = carDto.Phone;
                 car.ProductionYear = productionYear;

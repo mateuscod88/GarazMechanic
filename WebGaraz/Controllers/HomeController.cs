@@ -51,7 +51,7 @@ namespace WebGaraz.Controllers
         public ActionResult AllCarsRegistered()
         {
             var allCars = _getAllCarsQuery.Execute();
-            var allCarsModel = allCars.Select(x => new CarModel { Brand = x.Brand, BrandId = x.BrandId, Engine = x.Engine, HorsePower = x.HorsePower, Id = x.Id, LatestOilChange = "", Model = x.Model, ModelId = x.ModelId, Name = x.Name, OwnerId = x.OwnerId, OwnerName = x.OwnerName, Phone = x.Phone, PlateNumber = x.PlateNumber, TechnicalCheck = x.TechnicalCheck.ToString(), Year = x.Year }).ToList();
+            var allCarsModel = allCars.Select(x => new CarModel { Brand = x.Brand, BrandId = x.BrandId, Engine = x.Engine,EngineId = x.EngineId, HorsePower = x.HorsePower, Id = x.Id, LatestOilChange = "", Model = x.Model, ModelId = x.ModelId, Name = x.Name, OwnerId = x.OwnerId, OwnerName = x.OwnerName, Phone = x.Phone, PlateNumber = x.PlateNumber, TechnicalCheck = x.TechnicalCheck.ToString(), Year = x.Year,KilometerCounter = x.KilometerCounter }).ToList();
             return Json(allCarsModel, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AllBrands()

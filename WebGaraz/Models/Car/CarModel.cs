@@ -24,8 +24,10 @@ namespace WebGaraz.Models.Car
         public string Year { get; set; }
         public string HorsePower { get; set; }
         public string Engine { get; set; }
+        public int EngineId { get; set; }
         [Required(ErrorMessage = "Plate number required")]
         public string PlateNumber { get; set; }
+        public int KilometerCounter { get; set; }
         public string TechnicalCheck { get; set; }
         public string LatestOilChange { get; set; }
         public List<RepairDTO> Repairs { get; set; }

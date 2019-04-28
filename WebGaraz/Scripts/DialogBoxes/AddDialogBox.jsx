@@ -13,7 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-
+import RepairDialogBox from '../DialogBoxes/RepairDialogBox.jsx';
 import CarGrid from '../../src/App.js';
 
 import classNames from 'classnames';
@@ -275,12 +275,14 @@ class AddDialogBox extends React.Component {
             engine: [],
             singleEngine:'',
             open: false,
+            openDialog: false,
             updateCarGrid:false,
             name: 'Cat in the Hat',
             counter: '',
             counterErrorText : '',
             regNumber: '',
-            regNumError:'',
+            regNumError: '',
+            dueDateTechService:'',
             owner: '',
             owners: [],
             isOwnerValid: false,
@@ -291,7 +293,9 @@ class AddDialogBox extends React.Component {
             multiline: 'Controlled',
             single: 'dobri',
             multi: null,
-            rows:[],
+            rows: [],
+            row: null,
+            isRowSelected:true,
         };
     }
 
@@ -347,11 +351,68 @@ class AddDialogBox extends React.Component {
             open: true,
         });
     };
+    handleAddRepair = () => {
+        this.setState({
+            openDialog: true,
+        });
+    }
+     handleEditOpen = async () => {
+        var brandRow = this.state.brand[this.state.brand.findIndex((singleModel) => singleModel.label === this.state.row.brand)];
+        var modelRow = null;
+        const fetchResult = await fetch('/home/allmodels?id=' + brandRow.value)
+            .then(response => response.json())
+            .then(data => this.setState({
+                model: (data.map(suggestion => ({
+                    value: suggestion.ID,
+                    label: suggestion.Name,
+                }))),
+            }));
+        await fetchResult;
+        modelRow = this.state.model[this.state.model.findIndex((singleModel) => singleModel.label === this.state.row.model)];
+        debugger;
+        fetch('/home/AllEnginesForCarByBrandIdAndModelId?brandId=' + this.state.brand[this.state.brand.findIndex((singleBrand) => brandRow == singleBrand)].value + "&modelId=" + modelRow.value)
+            .then(response => response.json())
+            .then(data => this.setState({
+                engine: (data.map(suggestion => ({
+                    value: suggestion.ID,
+                    label: suggestion.Name,
+                }))),
+            }));
+        debugger;
+         var engineRow = { value: this.state.row.engineId, label: this.state.row.engine };
+         var counterRow = this.state.row.counter;
+         var ownerRow = { value: this.state.row.owner.id, label: this.state.row.owner.name };
+         var regNumberRow = this.state.row.regNum;
+         var phoneRow = this.state.row.phone;
+         var yearRow = this.state.row.year;
+         var dueDateRow = this.state.row.dueDateTechService.substring(0,this.state.row.dueDateTechService.indexOf(" "));
+         debugger;
+         this.setState({
+            singleBrand: brandRow,
+            singleModel: modelRow,
+            singleEngine: engineRow,
+            counter: counterRow,
+            phone: phoneRow,
+            regNumber:regNumberRow,
+            owner: ownerRow,
+            year: yearRow,
+            dueDateTechService:dueDateRow,
+            open: true,
+            
+        });
+    };
     handleChangeDropDown = name => event => {
         this.setState({
             [name]: event.target.value,
             yearError:'',
         });
+    };
+    OnDateChange = name => event => {
+        this.setState({
+            [name]: event.target.value,
+        });
+        var due = this.state.dueDateTechService;
+        debugger;
     };
     handleChange = name => value => {
         this.setState({
@@ -416,6 +477,12 @@ class AddDialogBox extends React.Component {
     };
     handleClose = () => {
         this.setState({ open: false });
+    }
+    SelectChange = (dialogButton) => {
+        return this;
+    }
+    GetAddDialogBox = (dialogBox) => {
+        return this;
     }
     handleSaveButton = () => {
         var isCarModelInvalid = this.state.singleModel === '';
@@ -493,14 +560,14 @@ class AddDialogBox extends React.Component {
         };
         return (
             <div>
-                <CarGrid update={this.state.updateCarGrid}  />
+                <CarGrid update={this.state.updateCarGrid} selectChange={this.SelectChange(this)}  />
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
                     Dodaj Nowe Auto
                 </Button>
-                <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
+                <Button variant="outlined" color="secondary" onClick={this.handleEditOpen} disabled={this.state.isRowSelected}>
                     Edytuj Auto
                 </Button>
-                <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
+                <Button variant="outlined" color="secondary" onClick={this.handleAddRepair} disabled={this.state.isRowSelected}>
                     Dodaj Naprawe
                 </Button>
                 <Dialog
@@ -607,7 +674,9 @@ class AddDialogBox extends React.Component {
                                         id="date"
                                         label="Badanie techniczne"
                                         type="date"
+                                        value={this.state.dueDateTechService}
                                         className={classes.textField}
+                                        onChange={this.OnDateChange('dueDateTechService')}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -648,7 +717,7 @@ class AddDialogBox extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                
+                <RepairDialogBox GetDialogBox={this.GetAddDialogBox(this)} />
             </div>
            
         );

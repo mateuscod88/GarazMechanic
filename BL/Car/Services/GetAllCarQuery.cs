@@ -33,6 +33,8 @@ namespace BL.Car.Services
                        BrandId = x.Brand != null ? x.Brand.BrandID : 0,
                        HorsePower = x.HorsePower,
                        Engine = x.Engine.Name,
+                       EngineId = x.Engine != null ? x.Engine.EngineID : 0,
+                       KilometerCounter = x.KilometerCounter,
                        TechnicalCheck = x.TechnicalCheck,
                        OwnerName = x.Owner != null ? x.Owner.Name : "",
                        Model = x.Model != null ? x.Model.Name : "",

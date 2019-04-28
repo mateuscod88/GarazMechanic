@@ -13,6 +13,7 @@ namespace DB.Domain
         public string HorsePower { get; set; }
         public string PlateNumber { get; set; }
         public string Phone { get; set; }
+        public int KilometerCounter { get; set; }
         public DateTime? TechnicalCheck { get; set; }
         public virtual ProductionYear ProductionYear { get; set; }
         public virtual Owner Owner { get; set; }
