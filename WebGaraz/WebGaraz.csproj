@@ -193,12 +193,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dist\bundle.js" />
     <Content Include="Global.asax" />
     <Content Include="package.json" />
     <Content Include="package-lock.json" />
     <Content Include="Scripts\DialogBoxes\AddForm.jsx" />
     <Content Include="Scripts\DialogBoxes\RepairDialogBox.jsx" />
+    <Content Include="Scripts\Grid\CarGrid.jsx" />
+    <Content Include="Scripts\Repair\ContainerRepair.jsx" />
+    <Content Include="Scripts\Repair\RepairGrid.jsx" />
+    <Content Include="Scripts\Repair\Service\RepairService.jsx" />
     <Content Include="webpack.config.js" />
     <None Include="Scripts\Tutorial.jsx" />
     <None Include="Scripts\Car\CarService.jsx" />
@@ -210,6 +213,7 @@
     <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RepairsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,6 +231,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Repairs\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -236,6 +241,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="bin\" />
+    <Folder Include="dist\" />
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>

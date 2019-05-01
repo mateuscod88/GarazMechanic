@@ -37,6 +37,7 @@ namespace BL.Car.Services
                        KilometerCounter = x.KilometerCounter,
                        TechnicalCheck = x.TechnicalCheck,
                        OwnerName = x.Owner != null ? x.Owner.Name : "",
+                       OwnerId = x.Owner != null ? x.Owner.OwnerID : 0,
                        Model = x.Model != null ? x.Model.Name : "",
                        ModelId = x.Model != null ? x.Model.ModelID : 0,
                        Repairs = _context.Repairs.Select(y => new BL.Repair.DTO.RepairDTO

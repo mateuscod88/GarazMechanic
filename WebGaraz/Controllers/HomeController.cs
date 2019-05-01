@@ -22,6 +22,7 @@ namespace WebGaraz.Controllers
 {
     public class HomeController : Controller
     {
+        private IUpdateCar _updateCar;
         private IGetAllCars _getAllCarsQuery;
         private IGetCarByPlateNumber _getCarByPlateNumber;
         private IGetCarById _getCarByIdCommand;
@@ -32,7 +33,7 @@ namespace WebGaraz.Controllers
         private IEngineService _engineService;
         private IDatabaseService _context;
         // GET: Home
-        public HomeController(IGetCarByPlateNumber getCarByPlateNumber,IGetCarById getCarByIdCommand,ICreateCar createCarCommand, IBrandService brandService, IModelService modelService, IEngineService engineService, IOwnerService ownerService, IGetAllCars getAllCarsQuery)
+        public HomeController(IUpdateCar updateCar, IGetCarByPlateNumber getCarByPlateNumber,IGetCarById getCarByIdCommand,ICreateCar createCarCommand, IBrandService brandService, IModelService modelService, IEngineService engineService, IOwnerService ownerService, IGetAllCars getAllCarsQuery)
         {
             _context = new CarHistoryContext();
             _getCarByPlateNumber = getCarByPlateNumber;
@@ -43,6 +44,7 @@ namespace WebGaraz.Controllers
             _ownerService = ownerService;
             _getCarByIdCommand = getCarByIdCommand;
             _getAllCarsQuery = getAllCarsQuery;
+            _updateCar = updateCar;
         }
         public ActionResult Index()
         {
@@ -107,6 +109,40 @@ namespace WebGaraz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
+        }
+        [HttpPut]
+        public ActionResult UpdateCar(int id,CarModel carModel)
+        {
+            if(carModel.Id != id)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var car = _getCarByIdCommand.Execute(id);
+            if(car == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            CarDTO carDto = new CarDTO();
+            carDto.Id = carModel.Id;
+            carDto.Name = carModel.Name;
+            carDto.BrandId = carModel.BrandId;
+            carDto.Brand = carModel.Brand;
+            carDto.ModelId = carModel.ModelId;
+            carDto.Model = carModel.Model;
+            carDto.OwnerId = carModel.OwnerId;
+            carDto.OwnerName = carModel.OwnerName;
+            carDto.Phone = carModel.Phone;
+            carDto.Year = carModel.Year;
+            carDto.HorsePower = carModel.HorsePower;
+            carDto.Engine = carModel.Engine;
+            carDto.EngineId = carModel.EngineId;
+            carDto.PlateNumber = carModel.PlateNumber;
+            carDto.KilometerCounter = carModel.KilometerCounter;
+            
+            
+            carDto.TechnicalCheck = !string.IsNullOrEmpty(carModel.TechnicalCheck)? (DateTime?)DateTime.Parse(carModel.TechnicalCheck) : null ; 
+            _updateCar.Execute(carDto);
+            return new HttpStatusCodeResult(HttpStatusCode.NoContent);
         }
         
 

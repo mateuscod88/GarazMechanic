@@ -19,15 +19,20 @@ namespace BL.Car.Services
             {
                 Id = x.CarID,
                 Name = x.Name,
-                Year = x.ProductionYear.Year,
+                Year = x.ProductionYear != null ? x.ProductionYear.Year : "",
                 PlateNumber = x.PlateNumber,
-                Phone = x.Owner.Phone,
-                Brand = x.Brand.Name,
-                BrandId = x.Brand.BrandID,
+                Phone = x.Owner != null ? x.Owner.Phone : x.Phone,
+                Brand = x.Brand != null ? x.Brand.Name : "",
+                BrandId = x.Brand != null ? x.Brand.BrandID : 0,
                 HorsePower = x.HorsePower,
-                OwnerName = x.Owner.Name,
-                Model = x.Model.Name,
-                ModelId = x.Model.ModelID,
+                Engine = x.Engine.Name,
+                EngineId = x.Engine != null ? x.Engine.EngineID : 0,
+                KilometerCounter = x.KilometerCounter,
+                TechnicalCheck = x.TechnicalCheck,
+                OwnerName = x.Owner != null ? x.Owner.Name : "",
+                OwnerId = x.Owner != null ? x.Owner.OwnerID : 0,
+                Model = x.Model != null ? x.Model.Name : "",
+                ModelId = x.Model != null ? x.Model.ModelID : 0,
                 Repairs = x.Repairs.Select(y => new BL.Repair.DTO.RepairDTO { Id = y.RepairID, Name = y.Name, Date = (DateTime)y.DateRepair }).ToList()
             }).FirstOrDefault();
             return car;

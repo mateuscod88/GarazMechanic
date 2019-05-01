@@ -295,10 +295,11 @@ class AddDialogBox extends React.Component {
             multi: null,
             rows: [],
             row: null,
-            isRowSelected:true,
+            isRowSelected: true,
+            isEditDialogBox:false,
         };
     }
-
+    
     componentDidMount() {
         fetch('/home/AllBrands')
             .then(response => response.json())
@@ -319,7 +320,9 @@ class AddDialogBox extends React.Component {
       
             
     }
-    
+    UpdateCarGrid = () => {
+        return this;
+    }
     NumberValidation = (value,name,length,errorMsg) => {
         var regex = /^\d+$/;
         if (!(value === null)) {
@@ -349,6 +352,7 @@ class AddDialogBox extends React.Component {
     handleClickOpen = () => {
         this.setState({
             open: true,
+            isEditDialogBox:false,
         });
     };
     handleAddRepair = () => {
@@ -397,9 +401,11 @@ class AddDialogBox extends React.Component {
             owner: ownerRow,
             year: yearRow,
             dueDateTechService:dueDateRow,
-            open: true,
+             open: true,
+            isEditDialogBox:true,
             
-        });
+         });
+         
     };
     handleChangeDropDown = name => event => {
         this.setState({
@@ -484,64 +490,105 @@ class AddDialogBox extends React.Component {
     GetAddDialogBox = (dialogBox) => {
         return this;
     }
-    handleSaveButton = () => {
-        var isCarModelInvalid = this.state.singleModel === '';
-        var isCarBrandInvalid = this.state.singleBrand === '';
-        var isCarEngineInvalid = this.state.singleEngine === '';
-        var isPhoneInvalid = this.state.phone === '';
-        var isOwnerNotSelected = this.state.owner === '' || this.state.owner === null; 
-        var isYearInvalid = this.state.year === '';
-        var isRegNumInvalid = this.state.regNumber === '';
+    handleSaveButton = async () => {
+        
+        if (this.state.isEditDialogBox == false) {
+            var isCarModelInvalid = this.state.singleModel === '';
+            var isCarBrandInvalid = this.state.singleBrand === '';
+            var isCarEngineInvalid = this.state.singleEngine === '';
+            var isPhoneInvalid = this.state.phone === '';
+            var isOwnerNotSelected = this.state.owner === '' || this.state.owner === null;
+            var isYearInvalid = this.state.year === '';
+            var isRegNumInvalid = this.state.regNumber === '';
 
-        if (isCarModelInvalid) {
-            this.setState({ isCarModelValid : true });
+            if (isCarModelInvalid) {
+                this.setState({ isCarModelValid: true });
+            }
+            if (isCarBrandInvalid) {
+                this.setState({ isCarBrandValid: true });
+            }
+            if (isCarEngineInvalid) {
+                this.setState({ isCarEngineValid: true });
+            }
+            if (isPhoneInvalid && isOwnerNotSelected) {
+                this.setState({
+                    phoneErrorText: 'Telefon lub właściciel wymagany',
+                    isOwnerValid: true,
+                });
+            }
+            if (isRegNumInvalid) {
+                this.setState({
+                    regNumError: 'Numer rejestracyjny wymagany',
+                });
+            }
+            if (isYearInvalid) {
+                this.setState({
+                    yearError: 'Rok produkcji wymagany',
+                });
+            }
+            if (!isCarModelInvalid && !isCarBrandInvalid && !isCarEngineInvalid && (!isOwnerNotSelected || !isPhoneInvalid)) {
+                var ownerId = this.state.owners[this.state.owners.findIndex((owner) => this.state.owner.label == owner.label && this.state.owner.value == owner.value)].value;
+
+                var carDTO =
+                {
+                    BrandId: this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value,
+                    ModelId: this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value,
+                    Engine: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].label,
+                    Year: this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value,
+                    TechnicalCheck: (document.getElementById('date')).value,
+                    PlateNumber: this.state.regNumber,
+                    KilometerCounter: this.state.counter,
+                    OwnerId: ownerId,
+                    Phone: this.state.phone,
+                };
+
+
+                const postResult = await fetch('/home/addCar', {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(carDTO)
+                });
+                await postResult;
+                this.setState({
+                    open: false,
+                    updateCarGrid: true,
+                });
+            }
         }
-        if (isCarBrandInvalid) {
-            this.setState({ isCarBrandValid : true });
-        }
-        if (isCarEngineInvalid) {
-            this.setState({ isCarEngineValid : true });
-        }
-        if (isPhoneInvalid && isOwnerNotSelected) {
-            this.setState({
-                phoneErrorText: 'Telefon lub właściciel wymagany',
-                isOwnerValid: true,
-            });
-        }
-        if (isRegNumInvalid) {
-            this.setState({
-                regNumError: 'Numer rejestracyjny wymagany',
-            });
-        }
-        if (isYearInvalid) {
-            this.setState({
-                yearError: 'Rok produkcji wymagany',
-            });
-        }
-        if (!isCarModelInvalid && !isCarBrandInvalid && !isCarEngineInvalid && (!isOwnerNotSelected || !isPhoneInvalid)) {
+        else {
+            debugger;
+            var ownerId = this.state.owners[this.state.owners.findIndex((owner) => this.state.owner.label == owner.label && this.state.owner.value == owner.value)].value;
+            var enginee = this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine.label == singleEngine.label && this.state.singleEngine.value == singleEngine.value)].label;
             var carDTO =
             {
+                Id: this.state.row.id,
                 BrandId: this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value,
                 ModelId: this.state.model[this.state.model.findIndex((singleModel) => this.state.singleModel == singleModel)].value,
-                Engine: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine == singleEngine)].label,
+                Engine: this.state.engine[this.state.engine.findIndex((singleEngine) => this.state.singleEngine.label == singleEngine.label && this.state.singleEngine.value == singleEngine.value)].label,
                 Year: this.state.years[this.state.years.findIndex((year) => this.state.year == year.value)].value,
                 TechnicalCheck: (document.getElementById('date')).value,
-                PlateNumber: this.state.regNumber
+                PlateNumber: this.state.regNumber,
+                KilometerCounter: this.state.counter,
+                OwnerId: ownerId,
+                Phone: this.state.phone,
+
             };
-
-
-            fetch('/home/addCar', {
+            const putResult = await fetch('home/updateCar?id=' + this.state.row.id, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                method: 'POST',
+                method: 'PUT',
                 body: JSON.stringify(carDTO)
-            });
 
+            });
+            await putResult;
             this.setState({
                 open: false,
-                updateCarGrid:true,
+                updateCarGrid: true,
             });
         }
     };
@@ -560,7 +607,7 @@ class AddDialogBox extends React.Component {
         };
         return (
             <div>
-                <CarGrid update={this.state.updateCarGrid} selectChange={this.SelectChange(this)}  />
+                <CarGrid update={this.UpdateCarGrid()} selectChange={this.SelectChange(this)}  />
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
                     Dodaj Nowe Auto
                 </Button>

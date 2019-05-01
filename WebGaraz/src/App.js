@@ -48,7 +48,9 @@ class CarGrid extends Component {
             }));
     }
     componentDidUpdate(prevProps) {
-        if (this.props.update == true) {
+        var addDialogBox = this.props.update;
+        
+        if (addDialogBox.state.updateCarGrid == true) {
             fetch('/home/AllCarsRegistered')
                 .then(response => response.json())
                 .then(data => this.setState({
@@ -70,6 +72,10 @@ class CarGrid extends Component {
                         year: suggestion.Year,
                     }))),
                 }));
+            debugger;
+            addDialogBox.setState({
+                updateCarGrid: false,
+            });
         }
     }
     commitChanges({ added, changed, deleted }) {
@@ -83,6 +89,30 @@ class CarGrid extends Component {
         if (deleted) {
 
         }
+    }
+    fetchCars = async () => {
+        const result = await fetch('/home/AllCarsRegistered')
+            .then(response => response.json())
+            .then(data => this.setState({
+                rows: (data.map(suggestion => ({
+                    id: suggestion.Id,
+                    model: suggestion.Model,
+                    modelId: suggestion.ModelId,
+                    brand: suggestion.Brand,
+                    brandId: suggestion.BrandId,
+                    engine: suggestion.Engine,
+                    engineId: suggestion.EngineId,
+                    regNum: suggestion.PlateNumber,
+                    phone: suggestion.Phone,
+                    counter: suggestion.KilometerCounter,
+                    dueDateTechService: suggestion.TechnicalCheck,
+                    lastOilChange: suggestion.LatestOilChange,
+                    owner: { id: suggestion.OwnerId, name: suggestion.OwnerName },
+                    phone: suggestion.Phone,
+                    year: suggestion.Year,
+                }))),
+            }));
+        await result;
     }
     changeSelection = selection => {
         var sel = [];

@@ -7,7 +7,7 @@ using BL.Car.DTO;
 
 namespace BL.Car.Services
 {
-    interface IUpdateCar
+    public interface IUpdateCar
     {
          void Execute(CarDTO carDto);
     }

@@ -23,10 +23,14 @@ namespace BL.Repair.Services
                 {
                     Id = x.RepairID,
                     Name = x.Name,
-                    Date = (DateTime)x.DateRepair
-                    
-
+                    Date = (DateTime)x.DateRepair,
+                    CarId = x.CarID,
+                    Brand = x.Car.Brand.Name,
+                    Model = x.Car.Model.Name,
+                    PlateNumber = x.Car.PlateNumber,
+                    Note = x.Note
                 }).ToList();
+
                 return repairs;
             }
             
@@ -49,16 +53,12 @@ namespace BL.Repair.Services
             using (_context)
             {
                 var car = _context.Cars.Where(x => x.CarID == repairDTO.CarId).FirstOrDefault();
-                var repairNotes = _context.RepairNotes.Where(x => x.Repair.RepairID == repairDTO.Id).ToList();
-                repairNotes.Add(new DB.Domain.RepairNotes
-                {
-                    Description = repairDTO.Notes.FirstOrDefault(x => x.Id == repairDTO.updatedRepairNoteId).Description
-                });
+                
                 _context.Repairs.Add(new DB.Domain.Repair
                 {
                     Name = repairDTO.Name,
-                    DateRepair = DateTime.Now,
-                    RepairNotes = repairNotes,
+                    DateRepair = repairDTO.Date,
+                    Note = repairDTO.Note,
                     Car = car                    
                 });
                 _context.Save();
@@ -84,7 +84,6 @@ namespace BL.Repair.Services
                 _context.RepairNotes.Add(new DB.Domain.RepairNotes
                 {
                     Repair = repair,
-                    Description = repairDTO.Notes.FirstOrDefault(x => x.Id == repairDTO.updatedRepairNoteId).Description
 
                 });
                  
@@ -96,7 +95,6 @@ namespace BL.Repair.Services
         public void UpdateNote(RepairDTO repairDTO) {
             using (_context)
             {
-                _context.RepairNotes.Where(x => x.RepairNotesID == repairDTO.updatedRepairNoteId).FirstOrDefault().Description = repairDTO.Notes.FirstOrDefault(x => x.Id == repairDTO.updatedRepairNoteId).Description;
                 _context.Save();
             }
             
@@ -119,7 +117,6 @@ namespace BL.Repair.Services
         {
             using (_context)
             {
-                _context.RepairNotes.Where(x => x.RepairNotesID == repairDTO.updatedRepairNoteId).FirstOrDefault().IsInactive = "Y";
                 _context.Save();
             }
             

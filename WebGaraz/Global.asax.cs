@@ -7,6 +7,8 @@ using BL.Model.Service;
 using BL.Owner.Service;
 using DB;
 using DB.Interface;
+using BL.Repair.Services;
+using BL.Repair.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +42,10 @@ namespace WebGaraz
                    .As<IGetCarById>();
             builder.RegisterType<GetCarByPlateNumber>()
                    .As<IGetCarByPlateNumber>();
-            
+            builder.RegisterType<UpdateCar>()
+                   .As<IUpdateCar>();
+            builder.RegisterType<RepairService>()
+                   .As<IRepairService>();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             var container = builder.Build();

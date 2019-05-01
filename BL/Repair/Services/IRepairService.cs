@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BL.Repair.Services
 {
-    interface IRepairService
+    public interface IRepairService
     {
         List<RepairDTO> GetAll();
 

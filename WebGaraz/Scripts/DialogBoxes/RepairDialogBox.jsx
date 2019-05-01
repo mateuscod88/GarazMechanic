@@ -13,7 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-
+import RepairService from '../Repair/Service/RepairService.jsx';
 
 import classNames from 'classnames';
 import Select from 'react-select';
@@ -256,15 +256,19 @@ const components = {
     SingleValue,
     ValueContainer,
 };
+
+
 class RepairDialogBox extends React.Component {
     constructor(props) {
         super(props);
-        
+        this._repairService = new RepairService();
         this.state = {
             open: false,
             RepairNameErrorText: '',
             repairName: '',
-
+            OnDateChange: '',
+            repairDate: '',
+            repairNote:'',
         };
     }
     componentDidUpdate(prevProps) {
@@ -280,11 +284,21 @@ class RepairDialogBox extends React.Component {
     }
 
     handleSaveButton = () => {
+        var addDialogBox = this.props.GetDialogBox;
+        var repairDTO = {
+            Name: this.state.repairName,
+            Date: this.state.repairDate,
+            Note: this.state.repairNote,
+            CarId: addDialogBox.state.row.id,
+        };
+        debugger;
+        this._repairService.AddRepair(repairDTO);
+        addDialogBox.setState({ openDialog: false });
         this.setState({ open: false });
     };
     handleClose = () => {
         var addDialogBox = this.props.GetDialogBox;
-        addDialogBox.state.openDialog = false;
+        addDialogBox.setState({openDialog:false });
         this.setState({ open: false });
     };
     handleChangeRepairName = name => event => {
@@ -292,7 +306,16 @@ class RepairDialogBox extends React.Component {
             repairName: event.target.value,
         });
     };
-
+    OnDateChange = name => event => {
+        this.setState({
+            repairDate: event.target.value,
+        });
+    };
+    handleRepairNoteChange = name => event => {
+        this.setState({
+            repairNote: event.target.value,
+        });
+    };
     render() {
         const { classes, theme } = this.props;
 
@@ -306,7 +329,7 @@ class RepairDialogBox extends React.Component {
             }),
         };
         return (
-            <div>
+            <div >
                 <Dialog
                     onClose={this.handleClose}
                     aria-labelledby="customized-dialog-title"
@@ -316,6 +339,7 @@ class RepairDialogBox extends React.Component {
                         Dodaj Naprawe
                     </DialogTitle>
                     <DialogContent>
+                        <div className={classes.container}>
                         <div className={classes.root}>
                             <TextField
                                 id="outlined-name"
@@ -328,7 +352,32 @@ class RepairDialogBox extends React.Component {
                                 margin="normal"
                                 variant="outlined"
                             />
-                        </div>
+                            <TextField
+                                id="date"
+                                label="Data Naprawy"
+                                type="date"
+                                value={this.state.repairDate}
+                                className={classes.textField}
+                                onChange={this.OnDateChange('repairDate')}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                label="Notatka"
+                                multiline
+                                rowsMax="8"
+                                value={this.state.repairNote}
+                                onChange={this.handleRepairNoteChange('repairNote')}
+                                className={classes.textField}
+                                margin="normal"
+                                helperText="hello"
+                                variant="outlined"
+                            />
+
+                            </div>
+                            </div>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleSaveButton} color="primary">
