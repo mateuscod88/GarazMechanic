@@ -15,6 +15,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import RepairDialogBox from '../DialogBoxes/RepairDialogBox.jsx';
 import CarGrid from '../../src/App.js';
+import CarMenu from '../Menu/menu.jsx';
 
 import classNames from 'classnames';
 import Select from 'react-select';
@@ -607,6 +608,7 @@ class AddDialogBox extends React.Component {
         };
         return (
             <div>
+                
                 <CarGrid update={this.UpdateCarGrid()} selectChange={this.SelectChange(this)}  />
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
                     Dodaj Nowe Auto
