@@ -200,8 +200,10 @@
     <Content Include="Scripts\DialogBoxes\RepairDialogBox.jsx" />
     <Content Include="Scripts\Grid\CarGrid.jsx" />
     <Content Include="Scripts\Repair\ContainerRepair.jsx" />
+    <Content Include="Scripts\Repair\RepairDetailsDialogBox.jsx" />
     <Content Include="Scripts\Repair\RepairGrid.jsx" />
     <Content Include="Scripts\Repair\Service\RepairService.jsx" />
+    <Content Include="style\car\car-grid.css" />
     <Content Include="webpack.config.js" />
     <None Include="Scripts\Tutorial.jsx" />
     <None Include="Scripts\Car\CarService.jsx" />
@@ -244,6 +246,7 @@
     <Folder Include="bin\" />
     <Folder Include="dist\" />
     <Folder Include="src\" />
+    <Folder Include="style\repair\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

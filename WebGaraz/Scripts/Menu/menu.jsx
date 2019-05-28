@@ -1,73 +1,49 @@
-﻿const data = [
-    {
-        id: 1,
-        name: "Start",
-        rows: [{ id: 1, name: "O nas", link: "www.wp.pl" }, { id: 2, name: "O nas", link: "www.wp.pl" }, { id: 3, name: "O nas", link: "www.wp.pl" }]
-    },
-    {
-        id:2,
-        name: "Ustawienia",
-        rows: [{id:1, name: "O nas", link: "www.wp.pl" }]
-    }
-]
-class GarazMenu extends React.Component{
-    //constructor(props){
-    //    super(props);
-    //    this.state = {date = null};
-    //}
-    //componentDidMount() {
-    //    fetch('/home/menu')
-    //      .then(response => response.json())
-    //      .then(data => this.setState({ data }));
-    //}
-    render(){
-        var state = this.state;
-        let commentNodes;
-        if (data !== null) {
-             commentNodes = data.map(comment =>
-                 (<GarazMenuColumn key={comment.id} name={comment.name} rows={comment.rows}>
-                </GarazMenuColumn>
-                 ));
-        }
-        return(
-            <div className="menuList">
-                {commentNodes}
-            </div>
-        )
-    }
-}
-class GarazMenuColumn  extends React.Component{
-    render(){
-    let menuRows;
-    if(this.props.rows !== null){
-        menuRows = this.props.rows.map(comment =>
-        (
-            <GarazMenuRow key={comment.id} name={comment.name} link={comment.link}>
+﻿import React from 'react';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
-            </GarazMenuRow>
-        ))
-    }
-        return (
-            <div className="menuColumn">
-                {this.props.name}
-                {menuRows}
-            </div>
-        
-    )
-    }
-}
-class GarazMenuRow  extends React.Component{
+class CarMenu extends React.Component {
+    state = {
+        anchorEl: null,
+    };
 
-    render(){
+    handleClick = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleClose = (route) => {
+        debugger;
+        //if (typeof window !== 'undefined') {
+        //    window.location.href = route;
+        //}
+        this.setState({ anchorEl: null });
+    };
+
+    render() {
+        const { anchorEl } = this.state;
+
         return (
-            
-            <a href={this.props.link}><div>
-                {this.props.name}
-            </div></a>
-            );
+            <div>
+                <Button
+                    aria-owns={anchorEl ? 'simple-menu' : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                >
+                    Menu
+                </Button>
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={this.handleClose}
+                >
+                    <MenuItem onClick={this.handleClose}>Auta</MenuItem>
+                    <MenuItem onClick={this.handleClose}>Naprawy</MenuItem>
+                </Menu>
+            </div>
+        );
     }
 }
-ReactDOM.render(
-    <GarazMenu />,
-    document.getElementById('content-menu')
-);
+
+export default CarMenu;

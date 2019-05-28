@@ -24,6 +24,7 @@ class RepairGrid extends Component {
         });
 
     }
+    
     async componentDidMount() {
         var service = this.props.service;
 
@@ -36,7 +37,11 @@ class RepairGrid extends Component {
         });
     }
     componentDidUpdate(prevProps) {
-        
+        var service = this.props.service;
+        if (service.GetUpdateGrid() == true) {
+            this.GetRows();
+            service.SetUpdateGrid(false);
+        }
     }
     commitChanges({ added, changed, deleted }) {
         let { rows } = this.state;
@@ -52,22 +57,21 @@ class RepairGrid extends Component {
     }
     
     changeSelection = selection => {
+        var service = this.props.service;
         var sel = [];
         sel[0] = selection[selection.length - 1];
         var rowId = sel[0];
-        debugger;
+        
         var row = this.state.rows[this.state.rows.findIndex(row => row.id == rowId)];
-        var dialogBtn = this.props.selectChange;
         if (selection.length != 0) {
-            dialogBtn.setState({
-                row: row,
-                isRowSelected: false,
-            });
+            service.SetSingleRow(row);
+            service.SetIsRowSelected(true);
+            this.props.onRowSelected(true);
+            debugger;
         }
         else {
-            dialogBtn.setState({
-                isRowSelected: true,
-            });
+            service.SetIsRowSelected(false);
+            this.props.onRowSelected(false);
         }
         debugger;
 

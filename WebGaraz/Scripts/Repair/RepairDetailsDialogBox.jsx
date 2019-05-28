@@ -258,48 +258,56 @@ const components = {
 };
 
 
-class RepairDialogBox extends React.Component {
+class RepairDetailsDialogBox extends React.Component {
     constructor(props) {
         super(props);
-        this._repairService = new RepairService();
+        var service = this.props.service;
         this.state = {
-            open: false,
+            open:false,
             RepairNameErrorText: '',
             repairName: '',
             OnDateChange: '',
             repairDate: '',
-            repairNote:'',
+            repairNote: '',
         };
     }
-    componentDidUpdate(prevProps) {
-        var addDialogBox = this.props.GetDialogBox;
-        var openDialog = addDialogBox.state.openDialog;
-        
-        if (addDialogBox.state.openDialog == true && this.state.open == false) {
-            this.setState({
-                open:openDialog ,
-            });
-        }
+
+    componentDidMount() {
+        var service = this.props.service;
         
     }
 
-    handleSaveButton = () => {
-        var addDialogBox = this.props.GetDialogBox;
+    componentDidUpdate(prevProps) {
+        var service = this.props.service;
+        var row = service.GetSingleRow();
+        if (service.isRowSelected) {
+            service.SetIsRowSelected(false);
+            this.setState({
+                repairName: row.name,
+                repairDate: row.date.substring(0, row.date.indexOf(" ")),
+                repairNote: row.note,
+            });
+        }
+
+    }
+
+    handleSaveButton = async () => {
+        var service = this.props.service;
+        var row = service.GetSingleRow();
         var repairDTO = {
             Name: this.state.repairName,
             Date: this.state.repairDate,
             Note: this.state.repairNote,
-            CarId: addDialogBox.state.row.id,
+            Id : row.id,
+            
         };
         
-        this._repairService.AddRepair(repairDTO);
-        addDialogBox.setState({ openDialog: false });
-        this.setState({ open: false });
+        await service.UpdateRepair(repairDTO);
+        this.props.onClose();
     };
     handleClose = () => {
-        var addDialogBox = this.props.GetDialogBox;
-        addDialogBox.setState({openDialog:false });
-        this.setState({ open: false });
+        var service = this.props.service;
+        this.props.onClose();
     };
     handleChangeRepairName = name => event => {
         this.setState({
@@ -333,51 +341,51 @@ class RepairDialogBox extends React.Component {
                 <Dialog
                     onClose={this.handleClose}
                     aria-labelledby="customized-dialog-title"
-                    open={this.state.open}
+                    open={this.props.open}
                 >
                     <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
                         Dodaj Naprawe
                     </DialogTitle>
                     <DialogContent>
                         <div className={classes.container}>
-                        <div className={classes.root}>
-                            <TextField
-                                id="outlined-name"
-                                label="Nazwa Naprawy"
-                                error={this.state.RepairNameErrorText.length !== 0 ? true : false}
-                                className={classes.textField}
-                                helperText={this.state.RepairNameErrorText}
-                                value={this.state.repairName}
-                                onChange={this.handleChangeRepairName('repairName')}
-                                margin="normal"
-                                variant="outlined"
-                            />
-                            <TextField
-                                id="date"
-                                label="Data Naprawy"
-                                type="date"
-                                value={this.state.repairDate}
-                                className={classes.textField}
-                                onChange={this.OnDateChange('repairDate')}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                            <TextField
-                                id="outlined-multiline-flexible"
-                                label="Notatka"
-                                multiline
-                                rowsMax="8"
-                                value={this.state.repairNote}
-                                onChange={this.handleRepairNoteChange('repairNote')}
-                                className={classes.textField}
-                                margin="normal"
-                                helperText="hello"
-                                variant="outlined"
-                            />
+                            <div className={classes.root}>
+                                <TextField
+                                    id="outlined-name"
+                                    label="Nazwa Naprawy"
+                                    error={this.state.RepairNameErrorText.length !== 0 ? true : false}
+                                    className={classes.textField}
+                                    helperText={this.state.RepairNameErrorText}
+                                    value={this.state.repairName}
+                                    onChange={this.handleChangeRepairName('repairName')}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    id="date"
+                                    label="Data Naprawy"
+                                    type="date"
+                                    value={this.state.repairDate}
+                                    className={classes.textField}
+                                    onChange={this.OnDateChange('repairDate')}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <TextField
+                                    id="outlined-multiline-flexible"
+                                    label="Notatka"
+                                    multiline
+                                    rowsMax="8"
+                                    value={this.state.repairNote}
+                                    onChange={this.handleRepairNoteChange('repairNote')}
+                                    className={classes.textField}
+                                    margin="normal"
+                                    helperText="hello"
+                                    variant="outlined"
+                                />
 
                             </div>
-                            </div>
+                        </div>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleSaveButton} color="primary">
@@ -386,11 +394,11 @@ class RepairDialogBox extends React.Component {
                     </DialogActions>
                 </Dialog>
             </div>
-            );
+        );
     }
 }
-RepairDialogBox.propTypes = {
+RepairDetailsDialogBox.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 };
-export default withStyles(styles, { withTheme: true })(RepairDialogBox);
+export default withStyles(styles, { withTheme: true })(RepairDetailsDialogBox);

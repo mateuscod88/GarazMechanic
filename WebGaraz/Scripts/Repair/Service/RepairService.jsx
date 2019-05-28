@@ -2,6 +2,10 @@
     constructor() {
         this.repairs = null;
         this.columns = null;
+        this.singleRow = null;
+        this.isRowSelected = false;
+        this.isRepairDetailsDialogBox = false;
+        this.updateGrid = false;
     }
     async AddRepair(repairDTO) {
         const postResult = await fetch('/repairs/addRepair', {
@@ -13,6 +17,18 @@
             body: JSON.stringify(repairDTO)
         });
         await postResult;
+    }
+    async UpdateRepair(repairDTO) {
+        const putResult = await fetch('home/updateRepair?id=' + this.state.row.id, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'PUT',
+            body: JSON.stringify(repairDTO)
+
+        });
+        await putResult;
     }
     async GetAll() {
         const result = await fetch('/repairs/GetRepairs')
@@ -43,6 +59,27 @@
                 { name: 'date', title: "Data Naprawy" },
             ];
         return this.columns;
+    }
+    SetSingleRow(singleRow) {
+        this.singleRow = singleRow;
+    }
+    GetSingleRow() {
+        return this.singleRow;
+    }
+    SetIsRowSelected(isRowSelected) {
+        this.isRowSelected = isRowSelected;
+    }
+    SetRepairDetailsDialogBox(isOpen) {
+        this.isRepairDetailsDialogBox = isOpen;
+    }
+    GetRepairDetailsDialogBox(){
+        return this.isRepairDetailsDialogBox;
+}
+    GetUpdateGrid(){
+        return this.updateGrid;
+    }
+    SetUpdateGrid(updateGrid){
+        this.updateGrid = updateGrid;
     }
 }
 export default RepairService;
