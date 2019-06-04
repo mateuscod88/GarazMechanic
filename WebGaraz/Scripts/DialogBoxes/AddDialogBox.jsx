@@ -608,7 +608,7 @@ class AddDialogBox extends React.Component {
         };
         return (
             <div>
-                
+                <CarMenu />
                 <CarGrid update={this.UpdateCarGrid()} selectChange={this.SelectChange(this)}  />
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
                     Dodaj Nowe Auto

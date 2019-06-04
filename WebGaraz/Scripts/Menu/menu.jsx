@@ -12,14 +12,23 @@ class CarMenu extends React.Component {
         this.setState({ anchorEl: event.currentTarget });
     };
 
-    handleClose = (route) => {
+    handleClose = () => {
         debugger;
-        //if (typeof window !== 'undefined') {
-        //    window.location.href = route;
-        //}
+        
         this.setState({ anchorEl: null });
     };
-
+    handleRouteCar = () => {
+        if (typeof window !== 'undefined') {
+            window.location.href = '/';
+        }
+        this.setState({ anchorEl: null });
+    };
+    handleRouteRepairs = () => {
+        if (typeof window !== 'undefined') {
+            window.location.href = '/repairs';
+        }
+        this.setState({ anchorEl: null });
+    };
     render() {
         const { anchorEl } = this.state;
 
@@ -38,8 +47,8 @@ class CarMenu extends React.Component {
                     open={Boolean(anchorEl)}
                     onClose={this.handleClose}
                 >
-                    <MenuItem onClick={this.handleClose}>Auta</MenuItem>
-                    <MenuItem onClick={this.handleClose}>Naprawy</MenuItem>
+                    <MenuItem onClick={this.handleRouteCar}>Auta</MenuItem>
+                    <MenuItem onClick={this.handleRouteRepairs}>Naprawy</MenuItem>
                 </Menu>
             </div>
         );

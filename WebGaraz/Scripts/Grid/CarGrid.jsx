@@ -1,5 +1,4 @@
-﻿import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
-import { Grid, Table, TableHeaderRow } from '@devexpress/dx-react-grid-material-ui';
+﻿import { Grid, Table, TableHeaderRow } from '@devexpress/dx-react-grid-material-ui';
 import { Column } from '@devexpress/dx-react-grid';
 class CarGrid extends React.Component {
     constructor(props) {
@@ -39,7 +38,4 @@ class CarGrid extends React.Component {
     }
 }
 
-ReactDOM.render(
-    <CarGrid />,
-    document.getElementById('car-grid')
-)
+export default CarGrid;
