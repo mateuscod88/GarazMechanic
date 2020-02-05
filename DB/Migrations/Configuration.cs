@@ -144,9 +144,9 @@ namespace DB.Migrations
             context.Parts.Add(new Domain.Part { Name = "Wysprzeglik", PartBrand = sachs, PartCategory = clutchPart, SupplyDate = DateTime.Now });
             context.SaveChanges();
 
-            context.Owners.Add(new Domain.Owner { Name = "Mateusz Kalinowski" });
-            context.Owners.Add(new Domain.Owner { Name = "Adam Zalinowski" });
-            context.Owners.Add(new Domain.Owner { Name = "Wojciech Palinowski" });
+            context.Owners.Add(new Domain.Owner { FirstName = "Mateusz",LastName = "Kalinowski" });
+            context.Owners.Add(new Domain.Owner { FirstName = "Adam",LastName = "Zalinowski" });
+            context.Owners.Add(new Domain.Owner { FirstName = "Wojciech",LastName = "Palinowski" });
             context.SaveChanges();
 
             var passat = context.Models
@@ -156,13 +156,13 @@ namespace DB.Migrations
                                 .Where(x => x.Name == "PASSAT")
                                 .FirstOrDefault();
             var mateo = context.Owners
-                               .Where(x => x.Name == "Mateusz Kalinowski")
+                               .Where(x => x.FirstName == "Mateusz" && x.LastName == "Kalinowski")
                                .FirstOrDefault();
             var adam = context.Owners
-                              .Where(x => x.Name == "Adam Zalinowski")
+                              .Where(x => x.FirstName == "Adam" && x.LastName == "Zalinowski")
                               .FirstOrDefault();
             var wojciech = context.Owners
-                              .Where(x => x.Name == "Wojciech Palinowski")
+                              .Where(x => x.FirstName == "Wojciech" && x.LastName == "Palinowski")
                               .FirstOrDefault();
             var year_2000 = context.ProductionYear.Where(y => y.Year == "2000").FirstOrDefault();
             var engineVwPassat = context.Engines.FirstOrDefault(x=> x.Brand.BrandID == vw.BrandID && x.Model.ModelID == passat.ModelID);

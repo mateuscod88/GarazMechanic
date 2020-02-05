@@ -62,9 +62,9 @@
     <Compile Include="Domain\Repair.cs" />
     <Compile Include="Domain\RepairNotes.cs" />
     <Compile Include="Interface\IDatabaseService.cs" />
-    <Compile Include="Migrations\201904302126228_Init.cs" />
-    <Compile Include="Migrations\201904302126228_Init.Designer.cs">
-      <DependentUpon>201904302126228_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201905292035166_init.cs" />
+    <Compile Include="Migrations\201905292035166_init.Designer.cs">
+      <DependentUpon>201905292035166_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,8 +74,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904302126228_Init.resx">
-      <DependentUpon>201904302126228_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905292035166_init.resx">
+      <DependentUpon>201905292035166_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

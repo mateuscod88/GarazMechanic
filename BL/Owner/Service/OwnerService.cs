@@ -22,7 +22,9 @@ namespace BL.Owner.Service
                 return _context.Owners.Select(x => new OwnerDTO
                 {
                     ID = x.OwnerID,
-                    Name = x.Name
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Phone = x.Phone
                 }).ToList();
             }
         }
@@ -33,10 +35,32 @@ namespace BL.Owner.Service
                 return _context.Owners.Where(x => x.OwnerID == ownerId).Select(x => new OwnerDTO
                 {
                     ID = x.OwnerID,
-                    Name = x.Name
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Phone = x.Phone
                 }).FirstOrDefault();
             }
-            
+        }
+
+        public void Add(OwnerDTO ownerDto)
+        {
+            try
+            {
+                var owner = _context.Owners.FirstOrDefault(x =>
+                    x.LastName == ownerDto.LastName && x.FirstName == ownerDto.FirstName && x.Phone == ownerDto.Phone);
+                if(owner == null)
+                {
+                    var newOwner = new DB.Domain.Owner()
+                        {FirstName = ownerDto.FirstName, LastName = ownerDto.LastName, Phone = ownerDto.Phone};
+                    _context.Owners.Add(newOwner);
+                    _context.Save();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

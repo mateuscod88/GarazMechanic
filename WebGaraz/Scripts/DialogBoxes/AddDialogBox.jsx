@@ -140,7 +140,7 @@ const styles = theme => ({
     },
     textField: {
         display: 'flex',
-        width:300,
+        width: 300,
         marginLeft: 0,
         marginRight: theme.spacing.unit,
 
@@ -265,31 +265,31 @@ class AddDialogBox extends React.Component {
         this.state = {
             data: null,
             phone: '',
-            phoneErrorText:'',
+            phoneErrorText: '',
             brand: [],
-            singleBrand:'',
+            singleBrand: '',
             model: [],
             singleModel: '',
             isCarModelValid: false,
             isCarBrandValid: false,
             isCarEngineValid: false,
             engine: [],
-            singleEngine:'',
+            singleEngine: '',
             open: false,
             openDialog: false,
-            updateCarGrid:false,
+            updateCarGrid: false,
             name: 'Cat in the Hat',
             counter: '',
-            counterErrorText : '',
+            counterErrorText: '',
             regNumber: '',
             regNumError: '',
-            dueDateTechService:'',
+            dueDateTechService: '',
             owner: '',
             owners: [],
             isOwnerValid: false,
             age: '',
             year: '',
-            yearError:'',
+            yearError: '',
             years: years,
             multiline: 'Controlled',
             single: 'dobri',
@@ -297,15 +297,15 @@ class AddDialogBox extends React.Component {
             rows: [],
             row: null,
             isRowSelected: true,
-            isEditDialogBox:false,
+            isEditDialogBox: false,
         };
     }
-    
+
     componentDidMount() {
         fetch('/home/AllBrands')
             .then(response => response.json())
             .then(data => this.setState({
-                brand:(data.map(suggestion => ({
+                brand: (data.map(suggestion => ({
                     value: suggestion.ID,
                     label: suggestion.Name,
                 }))),
@@ -318,13 +318,13 @@ class AddDialogBox extends React.Component {
                     label: suggestion.Name,
                 }))),
             }));
-      
-            
+
+
     }
     UpdateCarGrid = () => {
         return this;
     }
-    NumberValidation = (value,name,length,errorMsg) => {
+    NumberValidation = (value, name, length, errorMsg) => {
         var regex = /^\d+$/;
         if (!(value === null)) {
             if ((value.match(regex) && value.length < length) || value === "") {
@@ -353,7 +353,7 @@ class AddDialogBox extends React.Component {
     handleClickOpen = () => {
         this.setState({
             open: true,
-            isEditDialogBox:false,
+            isEditDialogBox: false,
         });
     };
     handleAddRepair = () => {
@@ -361,7 +361,7 @@ class AddDialogBox extends React.Component {
             openDialog: true,
         });
     }
-     handleEditOpen = async () => {
+    handleEditOpen = async () => {
         var brandRow = this.state.brand[this.state.brand.findIndex((singleModel) => singleModel.label === this.state.row.brand)];
         var modelRow = null;
         const fetchResult = await fetch('/home/allmodels?id=' + brandRow.value)
@@ -384,34 +384,34 @@ class AddDialogBox extends React.Component {
                 }))),
             }));
         debugger;
-         var engineRow = { value: this.state.row.engineId, label: this.state.row.engine };
-         var counterRow = this.state.row.counter;
-         var ownerRow = { value: this.state.row.owner.id, label: this.state.row.owner.name };
-         var regNumberRow = this.state.row.regNum;
-         var phoneRow = this.state.row.phone;
-         var yearRow = this.state.row.year;
-         var dueDateRow = this.state.row.dueDateTechService.substring(0,this.state.row.dueDateTechService.indexOf(" "));
-         debugger;
-         this.setState({
+        var engineRow = { value: this.state.row.engineId, label: this.state.row.engine };
+        var counterRow = this.state.row.counter;
+        var ownerRow = { value: this.state.row.owner.id, label: this.state.row.owner.name };
+        var regNumberRow = this.state.row.regNum;
+        var phoneRow = this.state.row.phone;
+        var yearRow = this.state.row.year;
+        var dueDateRow = this.state.row.dueDateTechService.substring(0, this.state.row.dueDateTechService.indexOf(" "));
+        debugger;
+        this.setState({
             singleBrand: brandRow,
             singleModel: modelRow,
             singleEngine: engineRow,
             counter: counterRow,
             phone: phoneRow,
-            regNumber:regNumberRow,
+            regNumber: regNumberRow,
             owner: ownerRow,
             year: yearRow,
-            dueDateTechService:dueDateRow,
-             open: true,
-            isEditDialogBox:true,
-            
-         });
-         
+            dueDateTechService: dueDateRow,
+            open: true,
+            isEditDialogBox: true,
+
+        });
+
     };
     handleChangeDropDown = name => event => {
         this.setState({
             [name]: event.target.value,
-            yearError:'',
+            yearError: '',
         });
     };
     OnDateChange = name => event => {
@@ -427,7 +427,7 @@ class AddDialogBox extends React.Component {
         });
     };
     handleChangeBrand = name => value => {
-        fetch('/home/allmodels?id='+ value.value)
+        fetch('/home/allmodels?id=' + value.value)
             .then(response => response.json())
             .then(data => this.setState({
                 model: (data.map(suggestion => ({
@@ -439,7 +439,7 @@ class AddDialogBox extends React.Component {
             [name]: value,
             isCarBrandValid: false,
         });
-        
+
     };
     handleChangeModel = name => value => {
         fetch('/home/AllEnginesForCarByBrandIdAndModelId?brandId=' + this.state.brand[this.state.brand.findIndex((singleBrand) => this.state.singleBrand == singleBrand)].value + "&modelId=" + value.value)
@@ -452,7 +452,7 @@ class AddDialogBox extends React.Component {
             }));
         this.setState({
             [name]: value,
-            isCarModelValid : false,
+            isCarModelValid: false,
         });
     };
     handleChangeEngine = name => value => {
@@ -467,13 +467,13 @@ class AddDialogBox extends React.Component {
     handleChangeRegNumber = name => event => {
         this.setState({
             [name]: event.target.value.toUpperCase(),
-            regNumError:'',
+            regNumError: '',
         });
     };
     handleChangeOwner = name => value => {
         this.setState({
             [name]: value,
-            phoneErrorText:'',
+            phoneErrorText: '',
         });
     };
     handleChangePhone = name => event => {
@@ -492,7 +492,7 @@ class AddDialogBox extends React.Component {
         return this;
     }
     handleSaveButton = async () => {
-        
+
         if (this.state.isEditDialogBox == false) {
             var isCarModelInvalid = this.state.singleModel === '';
             var isCarBrandInvalid = this.state.singleBrand === '';
@@ -609,7 +609,7 @@ class AddDialogBox extends React.Component {
         return (
             <div>
                 <CarMenu />
-                <CarGrid update={this.UpdateCarGrid()} selectChange={this.SelectChange(this)}  />
+                <CarGrid update={this.UpdateCarGrid()} selectChange={this.SelectChange(this)} />
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
                     Dodaj Nowe Auto
                 </Button>
@@ -633,43 +633,43 @@ class AddDialogBox extends React.Component {
                             <div className={classes.root}>
                                 <NoSsr>
                                     <FormControl className={classes.formControl} error={this.state.isCarBrandValid}>
-                                    <Select
-                                        classes={classes}
-                                        styles={selectStyles}
-                                        options={this.state.brand}
-                                        components={components}
-                                        value={this.state.singleBrand}
-                                        onChange={this.handleChangeBrand('singleBrand')}
-                                        placeholder="Wybierz Marke"
-                                        isClearable
+                                        <Select
+                                            classes={classes}
+                                            styles={selectStyles}
+                                            options={this.state.brand}
+                                            components={components}
+                                            value={this.state.singleBrand}
+                                            onChange={this.handleChangeBrand('singleBrand')}
+                                            placeholder="Wybierz Marke"
+                                            isClearable
                                         />
                                         {this.state.isCarBrandValid && <FormHelperText> This is required!</FormHelperText>}
                                     </FormControl>
                                     <div className={classes.divider} />
                                     <FormControl className={classes.formControl} error={this.state.isCarModelValid}>
-                                    <Select
-                                        classes={classes}
-                                        styles={selectStyles}
-                                        options={this.state.model}
-                                        components={components}
-                                        value={this.state.singleModel}
-                                        onChange={this.handleChangeModel('singleModel')}
-                                        placeholder="Wybierz Model"
-                                        isClearable
+                                        <Select
+                                            classes={classes}
+                                            styles={selectStyles}
+                                            options={this.state.model}
+                                            components={components}
+                                            value={this.state.singleModel}
+                                            onChange={this.handleChangeModel('singleModel')}
+                                            placeholder="Wybierz Model"
+                                            isClearable
                                         />
                                         {this.state.isCarModelValid && <FormHelperText>This is required!</FormHelperText>}
                                     </FormControl>
                                     <div className={classes.divider} />
                                     <FormControl className={classes.formControl} error={this.state.isCarEngineValid}>
-                                    <Select
-                                        classes={classes}
-                                        styles={selectStyles}
-                                        options={this.state.engine}
-                                        components={components}
-                                        value={this.state.singleEngine}
-                                        onChange={this.handleChangeEngine('singleEngine')}
-                                        placeholder="Wybierz Silnik"
-                                        isClearable
+                                        <Select
+                                            classes={classes}
+                                            styles={selectStyles}
+                                            options={this.state.engine}
+                                            components={components}
+                                            value={this.state.singleEngine}
+                                            onChange={this.handleChangeEngine('singleEngine')}
+                                            placeholder="Wybierz Silnik"
+                                            isClearable
                                         />
                                         {this.state.isCarEngineValid && <FormHelperText>This is required!</FormHelperText>}
                                     </FormControl>
@@ -733,15 +733,15 @@ class AddDialogBox extends React.Component {
                                     />
                                     <FormControl className={classes.formControl} error={this.state.isOwnerValid}>
 
-                                    <Select
-                                        classes={classes}
-                                        styles={selectStyles}
-                                        options={this.state.owners}
-                                        components={components}
-                                        value={this.state.owner}
-                                        onChange={this.handleChangeOwner('owner')}
-                                        placeholder="Wybierz właściciela"
-                                        isClearable
+                                        <Select
+                                            classes={classes}
+                                            styles={selectStyles}
+                                            options={this.state.owners}
+                                            components={components}
+                                            value={this.state.owner}
+                                            onChange={this.handleChangeOwner('owner')}
+                                            placeholder="Wybierz właściciela"
+                                            isClearable
                                         />
                                         {this.state.isOwnerValid && <FormHelperText>{this.state.phoneErrorText}</FormHelperText>}
                                     </FormControl>
@@ -768,7 +768,7 @@ class AddDialogBox extends React.Component {
                 </Dialog>
                 <RepairDialogBox GetDialogBox={this.GetAddDialogBox(this)} />
             </div>
-           
+
         );
     }
 }

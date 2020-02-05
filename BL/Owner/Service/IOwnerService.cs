@@ -12,5 +12,6 @@ namespace BL.Owner.Service
     {
         List<OwnerDTO> GetAll();
         OwnerDTO GetById(int ownerId);
+        void Add(OwnerDTO ownerDto);
     }
 }

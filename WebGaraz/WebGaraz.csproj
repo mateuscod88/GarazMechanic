@@ -199,6 +199,10 @@
     <Content Include="Scripts\DialogBoxes\AddForm.jsx" />
     <Content Include="Scripts\DialogBoxes\RepairDialogBox.jsx" />
     <Content Include="Scripts\Grid\CarGrid.jsx" />
+    <Content Include="Scripts\Owners\OwnerContainer.jsx" />
+    <Content Include="Scripts\Owners\OwnerDetailsDialogBox.jsx" />
+    <Content Include="Scripts\Owners\OwnerGrid.jsx" />
+    <Content Include="Scripts\Owners\Service\OwnerService.jsx" />
     <Content Include="Scripts\Repair\ContainerRepair.jsx" />
     <Content Include="Scripts\Repair\RepairDetailsDialogBox.jsx" />
     <Content Include="Scripts\Repair\RepairGrid.jsx" />
@@ -215,6 +219,7 @@
     <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OwnersController.cs" />
     <Compile Include="Controllers\RepairsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -234,6 +239,7 @@
     </Content>
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Repairs\Index.cshtml" />
+    <Content Include="Views\Owners\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

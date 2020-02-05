@@ -27,5 +27,4 @@ module.exports = {
         // Allow require('./blah') to require blah.jsx
         //extensions: ['*', '.js', '.jsx'],
     },
-    devtool: 'eval-source-map'
 };

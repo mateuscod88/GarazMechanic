@@ -3,7 +3,7 @@ namespace DB.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -24,20 +24,42 @@ namespace DB.Migrations
                         Name = c.String(),
                         HorsePower = c.String(),
                         PlateNumber = c.String(),
+                        Phone = c.String(),
+                        KilometerCounter = c.Int(nullable: false),
+                        TechnicalCheck = c.DateTime(),
                         Brand_BrandID = c.Int(),
+                        Engine_EngineID = c.Int(),
                         Model_ModelID = c.Int(),
                         Owner_OwnerID = c.Int(),
                         ProductionYear_ProductionYearID = c.Int(),
                     })
                 .PrimaryKey(t => t.CarID)
                 .ForeignKey("dbo.Brands", t => t.Brand_BrandID)
+                .ForeignKey("dbo.Engines", t => t.Engine_EngineID)
                 .ForeignKey("dbo.Models", t => t.Model_ModelID)
                 .ForeignKey("dbo.Owners", t => t.Owner_OwnerID)
                 .ForeignKey("dbo.ProductionYears", t => t.ProductionYear_ProductionYearID)
                 .Index(t => t.Brand_BrandID)
+                .Index(t => t.Engine_EngineID)
                 .Index(t => t.Model_ModelID)
                 .Index(t => t.Owner_OwnerID)
                 .Index(t => t.ProductionYear_ProductionYearID);
+            
+            CreateTable(
+                "dbo.Engines",
+                c => new
+                    {
+                        EngineID = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Power = c.String(),
+                        Brand_BrandID = c.Int(),
+                        Model_ModelID = c.Int(),
+                    })
+                .PrimaryKey(t => t.EngineID)
+                .ForeignKey("dbo.Brands", t => t.Brand_BrandID)
+                .ForeignKey("dbo.Models", t => t.Model_ModelID)
+                .Index(t => t.Brand_BrandID)
+                .Index(t => t.Model_ModelID);
             
             CreateTable(
                 "dbo.Models",
@@ -78,6 +100,7 @@ namespace DB.Migrations
                         Name = c.String(),
                         IsInactive = c.String(),
                         DateRepair = c.DateTime(),
+                        Note = c.String(),
                         CarID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.RepairID)
@@ -160,7 +183,10 @@ namespace DB.Migrations
             DropForeignKey("dbo.Cars", "ProductionYear_ProductionYearID", "dbo.ProductionYears");
             DropForeignKey("dbo.Cars", "Owner_OwnerID", "dbo.Owners");
             DropForeignKey("dbo.Cars", "Model_ModelID", "dbo.Models");
+            DropForeignKey("dbo.Cars", "Engine_EngineID", "dbo.Engines");
+            DropForeignKey("dbo.Engines", "Model_ModelID", "dbo.Models");
             DropForeignKey("dbo.Models", "Brand_BrandID", "dbo.Brands");
+            DropForeignKey("dbo.Engines", "Brand_BrandID", "dbo.Brands");
             DropForeignKey("dbo.Cars", "Brand_BrandID", "dbo.Brands");
             DropIndex("dbo.PartRepairs", new[] { "Repair_RepairID" });
             DropIndex("dbo.PartRepairs", new[] { "Part_PartID" });
@@ -169,9 +195,12 @@ namespace DB.Migrations
             DropIndex("dbo.Parts", new[] { "PartBrand_PartBrandID" });
             DropIndex("dbo.Repairs", new[] { "CarID" });
             DropIndex("dbo.Models", new[] { "Brand_BrandID" });
+            DropIndex("dbo.Engines", new[] { "Model_ModelID" });
+            DropIndex("dbo.Engines", new[] { "Brand_BrandID" });
             DropIndex("dbo.Cars", new[] { "ProductionYear_ProductionYearID" });
             DropIndex("dbo.Cars", new[] { "Owner_OwnerID" });
             DropIndex("dbo.Cars", new[] { "Model_ModelID" });
+            DropIndex("dbo.Cars", new[] { "Engine_EngineID" });
             DropIndex("dbo.Cars", new[] { "Brand_BrandID" });
             DropTable("dbo.PartRepairs");
             DropTable("dbo.RepairNotes");
@@ -182,6 +211,7 @@ namespace DB.Migrations
             DropTable("dbo.ProductionYears");
             DropTable("dbo.Owners");
             DropTable("dbo.Models");
+            DropTable("dbo.Engines");
             DropTable("dbo.Cars");
             DropTable("dbo.Brands");
         }
